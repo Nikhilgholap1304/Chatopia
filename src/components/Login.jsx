@@ -4,31 +4,41 @@ import { Button } from "@material-tailwind/react";
 import { auth, googleProvider, githubProvider } from "../lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const Navigate = useNavigate();
   const [loading, setLoading] = useState(null);
-  const [value, setValue] = useState("");
+  const { currentUid, setCurrentUid } = useAuth();
+
   const handleClick = (id) => {
     setLoading(id);
-
     const provider = id === 1 ? googleProvider : githubProvider;
-
-    signInWithPopup(auth, provider)
-      .then((data) => {
-        setValue(data.user.name);
-        localStorage.setItem("name", data.user.displayName);
+    const handleLogin = async () => {
+      try {
+        const data = await signInWithPopup(auth, provider);
+        const user = data.user;
+        localStorage.setItem("uid", user.uid);
         setLoading(null);
-        Navigate("/Home");
-      })
-      .catch((error) => {
-        console.error("Error logging in with Goggle", error);
+        Navigate(`/${user.uid}`);
+      } catch (err) {
+        console.error(
+          `Error logging in with ${id === 1 ? "google" : "github"}:`,
+          err
+        );
         setLoading(null);
-      });
+      }
+    };
+    handleLogin();
   };
+
   useEffect(() => {
-    setValue(localStorage.getItem("name"));
-  });
+    setCurrentUid(localStorage.getItem("uid"));
+    if (currentUid) {
+      Navigate(`/${currentUid}`);
+    }
+  }, [setCurrentUid, Navigate, currentUid]);
+
   return (
     <>
       <div className="w-full h-screen flex items-center justify-center relative">
