@@ -1,36 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@material-tailwind/react";
-import {auth, provider} from "../lib/firebase";
-import {signInWithPopup} from "firebase/auth";
+import { auth, googleProvider, githubProvider } from "../lib/firebase";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const Navigate = useNavigate();
   const [loading, setLoading] = useState(null);
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
   const handleClick = (id) => {
     setLoading(id);
-    
-    if(id===1){
-      signInWithPopup(auth, provider).then((data)=>{
-        setValue(data.user.email)
-        localStorage.setItem("email: ", data.user.email)
+
+    const provider = id === 1 ? googleProvider : githubProvider;
+
+    signInWithPopup(auth, provider)
+      .then((data) => {
+        setValue(data.user.name);
+        localStorage.setItem("name", data.user.displayName);
         setLoading(null);
-      }).catch((error)=>{
+        Navigate("/Home");
+      })
+      .catch((error) => {
         console.error("Error logging in with Goggle", error);
         setLoading(null);
-      })
-    }
+      });
   };
-  useEffect(()=>{
-    setValue(localStorage.getItem("email"))
-  })
+  useEffect(() => {
+    setValue(localStorage.getItem("name"));
+  });
   return (
     <>
       <div className="w-full h-screen flex items-center justify-center relative">
         <div className="bg-[url('./assets/bgImages/designBg1.png')] absolute top-0 left-0 bottom-0 w-full "></div>
         <div className="w-fit h-fit flex items-center justify-center flex-col gap-5 bg-dark2 border border-brown-700 p-7 rounded-md shadow-lg scale-[0.95] xs:scale-100">
           <h1 className="font-roboto text-2xl mb-5">
-            Welcome to <span className="font-adventPro text-3xl font-bold">Chatopia</span>
+            Welcome to{" "}
+            <span className="font-adventPro text-3xl font-bold">Chatopia</span>
           </h1>
           <Button
             size="lg"
