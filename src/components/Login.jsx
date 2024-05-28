@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@material-tailwind/react";
+import {auth, provider} from "../lib/firebase";
+import {signInWithPopup} from "firebase/auth";
 
 const Login = () => {
   const [loading, setLoading] = useState(null);
-  const onClick = (id) => {
+  const [value, setValue] = useState('')
+  const handleClick = (id) => {
     setLoading(id);
-    setTimeout(() => {
-      setLoading(null);
-    }, 3000);
+    
+    if(id===1){
+      signInWithPopup(auth, provider).then((data)=>{
+        setValue(data.user.email)
+        localStorage.setItem("email: ", data.user.email)
+        setLoading(null);
+      }).catch((error)=>{
+        console.error("Error logging in with Goggle", error);
+        setLoading(null);
+      })
+    }
   };
+  useEffect(()=>{
+    setValue(localStorage.getItem("email"))
+  })
   return (
     <>
       <div className="w-full h-screen flex items-center justify-center relative">
@@ -25,7 +39,7 @@ const Login = () => {
               loading === 1 ? "" : "p-1 pr-4"
             }`}
             loading={loading === 1 && true}
-            onClick={() => onClick(1)}
+            onClick={() => handleClick(1)}
             disabled={(loading === 2 && true) || (loading === 1 && true)}
           >
             {loading == 1 ? (
@@ -55,7 +69,7 @@ const Login = () => {
               loading === 2 ? "" : "p-1 pr-4"
             }`}
             loading={loading === 2 && true}
-            onClick={() => onClick(2)}
+            onClick={() => handleClick(2)}
             disabled={(loading === 2 && true) || (loading === 1 && true)}
           >
             {loading == 2 ? (
