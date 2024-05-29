@@ -8,6 +8,8 @@ import {
 import { AuthContextProvider, useAuth } from "./context/AuthContext";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AuthRedirect = () => {
   const { currentUid } = useAuth();
@@ -43,8 +45,21 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/" element={<AuthRedirect/>} />
+          <Route path="/" element={<AuthRedirect />} />
         </Routes>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition:Bounce
+        />
       </AuthContextProvider>
     </Router>
   );

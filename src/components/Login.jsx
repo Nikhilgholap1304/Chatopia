@@ -5,6 +5,7 @@ import { auth, googleProvider, githubProvider } from "../lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -18,6 +19,7 @@ const Login = () => {
       try {
         const data = await signInWithPopup(auth, provider);
         const user = data.user;
+        localStorage.setItem("loginTimestamp", new Date().getTime());
         localStorage.setItem("uid", user.uid);
         setLoading(null);
         Navigate(`/${user.uid}`);
@@ -27,6 +29,7 @@ const Login = () => {
           err
         );
         setLoading(null);
+        toast.error("try again");
       }
     };
     handleLogin();

@@ -12,6 +12,7 @@ const Dashboard = () => {
     try {
       await signOut(auth);
       localStorage.removeItem("uid");
+      localStorage.removeItem("loginTimestamp");
       Navigate("/login");
     } catch (err) {
       console.error("Error logging out:", err);
