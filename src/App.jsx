@@ -5,11 +5,12 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { AuthContextProvider, useAuth } from "./context/AuthContext";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContextProvider, useAuth } from "./context/AuthContext";
+import checkInterConnection from "./utils/checkInternetConnection";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
 
 const AuthRedirect = () => {
   const { currentUid } = useAuth();
@@ -47,6 +48,9 @@ const App = () => {
           />
           <Route path="/" element={<AuthRedirect />} />
         </Routes>
+
+        {checkInterConnection()}
+
         <ToastContainer
           position="bottom-right"
           autoClose={3000}
@@ -61,6 +65,7 @@ const App = () => {
           transition:Bounce
         />
       </AuthContextProvider>
+
     </Router>
   );
 };
