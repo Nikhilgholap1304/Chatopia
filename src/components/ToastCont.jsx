@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 const ToastCont = () => {
   return (
     <ToastContainer
+      stacked
       position="bottom-right"
       autoClose={3000}
       hideProgressBar={true}
@@ -16,7 +17,6 @@ const ToastCont = () => {
       pauseOnHover
       theme="dark"
       transition:Bounce
-      stacked
     />
   );
 };

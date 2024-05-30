@@ -39,8 +39,6 @@ export const AuthContextProvider = ({ children }) => {
     return () => unsubscribe();
   }, [fetchUserInfo, currentUid]);
 
-  console.log(currentUser);
-
   return (
     <AuthContext.Provider value={{ currentUid, setCurrentUid }}>
       {children}
