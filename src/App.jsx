@@ -7,9 +7,9 @@ import {
 } from "react-router-dom";
 import { AuthContextProvider, useAuth } from "./context/AuthContext";
 import checkInterConnection from "./utils/checkInternetConnection";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import PageNotFound from "./components/PageNotFound";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PageNotFound from "./pages/PageNotFound";
 import ToastCont from "./components/ToastCont";
 
 const AuthRedirect = () => {
