@@ -25,6 +25,7 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         setCurrentUid(user.uid);
         localStorage.setItem("loginTimestamp", new Date().getTime());
+        localStorage.setItem('uid',user.uid);
       } else {
         checkSession();
       }
