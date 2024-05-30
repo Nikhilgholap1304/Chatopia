@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import ToastCont from "./components/ToastCont";
+import LoadCont from "./pages/LoadCont";
+import { useUserStore } from "./lib/userStore";
 
 const AuthRedirect = () => {
   const { currentUid } = useAuth();
@@ -33,22 +35,27 @@ const PrivateRoute = ({ children }) => {
 };
 
 const App = () => {
+  const { isLoading } = useUserStore();
   return (
     <Router>
       <AuthContextProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/:uid"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/" element={<AuthRedirect />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+        {!isLoading ? (
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/:uid"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/" element={<AuthRedirect />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        ) : (
+          isLoading && <LoadCont />
+        )}
 
         {checkInterConnection()}
         <ToastCont />
