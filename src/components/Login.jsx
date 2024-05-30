@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@material-tailwind/react";
-import { auth, googleProvider, githubProvider, db } from "../lib/firebase";
+import { auth, googleProvider, githubProvider, db, storage } from "../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -24,14 +25,31 @@ const Login = () => {
         const userRef = doc(db, "users", user.uid);
         const docSnapshot = await getDoc(userRef);
 
-        if (!docSnapshot.exists()) {
+        let profilePicUrl = "";
 
+        if (user.photoURL && !docSnapshot.exists()) {
+          try {
+            const res = await fetch(user.photoURL);
+            if (!res.ok) {
+              throw new Error(`Failed to fetch profile picture: ${res.statusText}`);
+            }
+            const blob = await res.blob();
+            const storageRef = ref(storage, `profile_pictures/${user.uid}`);
+            await uploadBytes(storageRef, blob);
+            profilePicUrl = await getDownloadURL(storageRef);
+          } catch (error) {
+            console.error("Error uploading profile picture:", error);
+          }
+        }
+
+        if (!docSnapshot.exists()) {
           const username = user.displayName || "Anonymous";
           const email = user.email || "NoEmail";
 
           await setDoc(userRef, {
             username: username,
             email: email,
+            avatar: profilePicUrl,
             id: user.uid,
             blocked: [],
           });
@@ -46,12 +64,9 @@ const Login = () => {
         setLoading(null);
         Navigate(`/${user.uid}`);
       } catch (err) {
-        console.error(
-          `Error logging in with ${id === 1 ? "google" : "github"}:`,
-          err
-        );
+        console.error(`Error logging in with ${id === 1 ? "Google" : "GitHub"}:`, err);
         setLoading(null);
-        toast.error("try again");
+        toast.error("Try again");
       }
     };
     handleLogin();

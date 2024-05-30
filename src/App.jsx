@@ -5,13 +5,12 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AuthContextProvider, useAuth } from "./context/AuthContext";
 import checkInterConnection from "./utils/checkInternetConnection";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import PageNotFound from "./components/PageNotFound";
+import ToastCont from "./components/ToastCont";
 
 const AuthRedirect = () => {
   const { currentUid } = useAuth();
@@ -52,21 +51,7 @@ const App = () => {
         </Routes>
 
         {checkInterConnection()}
-
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={true}
-          newestOnTop={true}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          transition:Bounce
-          stacked
-        />
+        <ToastCont />
       </AuthContextProvider>
     </Router>
   );
