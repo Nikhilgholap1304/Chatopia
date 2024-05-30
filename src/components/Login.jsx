@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@material-tailwind/react";
-import { auth, googleProvider, githubProvider } from "../lib/firebase";
+import { auth, googleProvider, githubProvider, db } from "../lib/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -19,6 +20,27 @@ const Login = () => {
       try {
         const data = await signInWithPopup(auth, provider);
         const user = data.user;
+
+        const userRef = doc(db, "users", user.uid);
+        const docSnapshot = await getDoc(userRef);
+
+        if (!docSnapshot.exists()) {
+
+          const username = user.displayName || "Anonymous";
+          const email = user.email || "NoEmail";
+
+          await setDoc(userRef, {
+            username: username,
+            email: email,
+            id: user.uid,
+            blocked: [],
+          });
+
+          await setDoc(doc(db, "userchats", user.uid), {
+            chats: [],
+          });
+        }
+
         localStorage.setItem("loginTimestamp", new Date().getTime());
         localStorage.setItem("uid", user.uid);
         setLoading(null);

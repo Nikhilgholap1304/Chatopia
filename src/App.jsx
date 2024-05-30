@@ -11,6 +11,7 @@ import { AuthContextProvider, useAuth } from "./context/AuthContext";
 import checkInterConnection from "./utils/checkInternetConnection";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
+import PageNotFound from "./components/PageNotFound";
 
 const AuthRedirect = () => {
   const { currentUid } = useAuth();
@@ -47,6 +48,7 @@ const App = () => {
             }
           />
           <Route path="/" element={<AuthRedirect />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
         {checkInterConnection()}
@@ -54,7 +56,7 @@ const App = () => {
         <ToastContainer
           position="bottom-right"
           autoClose={3000}
-          hideProgressBar={false}
+          hideProgressBar={true}
           newestOnTop={true}
           closeOnClick
           rtl={false}
@@ -63,9 +65,9 @@ const App = () => {
           pauseOnHover
           theme="dark"
           transition:Bounce
+          stacked
         />
       </AuthContextProvider>
-
     </Router>
   );
 };
