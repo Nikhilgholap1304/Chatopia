@@ -1,11 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useUserStore } from "../lib/userStore";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUid, setCurrentUid] = useState(null);
+  const { currentUser, isLoading, fetchUserInfo } = useUserStore();
 
   useEffect(() => {
     const checkSession = () => {
@@ -14,8 +16,8 @@ export const AuthContextProvider = ({ children }) => {
       const tenDaysInMillis = 10 * 24 * 60 * 60 * 1000;
 
       if (loginTimestamp && currentTime - loginTimestamp > tenDaysInMillis) {
-        localStorage.removeItem('uid')
-        localStorage.removeItem('loginTimestamp');
+        localStorage.removeItem("uid");
+        localStorage.removeItem("loginTimestamp");
         signOut(auth);
         setCurrentUid(null);
       }
@@ -25,16 +27,19 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         setCurrentUid(user.uid);
         localStorage.setItem("loginTimestamp", new Date().getTime());
-        localStorage.setItem('uid',user.uid);
-      } else {
-        checkSession();
+        localStorage.setItem("uid", user.uid);
       }
     });
+    
+    //this is for storing user details on userStore (zustand state manager)
+    fetchUserInfo(currentUid);
 
     checkSession();
-    
+
     return () => unsubscribe();
-  }, []);
+  }, [fetchUserInfo, currentUid]);
+
+  console.log(currentUser);
 
   return (
     <AuthContext.Provider value={{ currentUid, setCurrentUid }}>
