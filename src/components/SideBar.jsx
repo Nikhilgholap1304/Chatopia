@@ -38,7 +38,7 @@ const SideBar = () => {
                 x: input ? 0 : 10,
               }}
             >
-              <IconButton className="rounded-full hover:bg-graylightsecondarytextcolor bg-transparent text-inherit">
+              <IconButton className="rounded-full hover:bg-graylightsecondarytextcolor bg-transparent text-inherit" onClick={()=>setInput('')}>
                 <IoCloseOutline className={`w-6 h-6`} />
               </IconButton>
             </motion.button>
@@ -46,7 +46,7 @@ const SideBar = () => {
               className={`absolute z-[1] ml-10 pointer-events-none text-graysecondarytextcolor text-sm`}
               animate={{
                 opacity: input ? 0 : 1,
-                scale: input ? 0.5 : 1,
+                scale: input ? 0.7 : 1,
                 transformOrigin: !input ? "left center" : "center",
               }}
               transition={{
