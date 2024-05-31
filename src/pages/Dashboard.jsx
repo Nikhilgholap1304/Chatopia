@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
+import SideBar from "../components/SideBar";
 
 const Dashboard = () => {
   const Navigate = useNavigate();
@@ -20,9 +21,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h1>{currentUid}</h1>
-      <button onClick={handleLogout}>logout</button>
+    <div className="flex w-screen h-screen ">
+      <SideBar />
+      {/* <div>
+        <h1>{currentUid}</h1>
+        <button onClick={handleLogout}>logout</button>
+      </div> */}
     </div>
   );
 };
