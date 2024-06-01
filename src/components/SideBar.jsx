@@ -51,7 +51,7 @@ const SideBar = () => {
               }}
             >
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-colors active:scale-[0.95]">
-                <FiUser className="w-[1rem] h-[1rem]" />
+                <FiUser className="w-[1rem] h-[1rem] -mt-[2px]" />
                 <span className="font-medium text-sm">Profile</span>
               </div>
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-colors active:scale-[0.95]">
