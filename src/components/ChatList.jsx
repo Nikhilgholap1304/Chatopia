@@ -1,14 +1,18 @@
 import React from "react";
 import Demo from "../assets/Demo.jpg";
 import "./style/style.scss";
-import { Avatar } from "@material-tailwind/react";
+import { Avatar, Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
+import { FaPen } from "react-icons/fa6";
 
 const ChatList = () => {
   return (
-    <div className="flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem]">
+    <div className="flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem] relative">
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -32,7 +36,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -56,7 +63,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -80,7 +90,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -104,7 +117,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -128,7 +144,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -152,7 +171,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -176,7 +198,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -200,7 +225,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -224,7 +252,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -248,7 +279,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -272,7 +306,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -296,7 +333,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -320,7 +360,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer relative">
-        <Ripples className="absolute w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className="absolute w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>
@@ -344,7 +387,10 @@ const ChatList = () => {
         </Ripples>
       </div>
       <div className="flex hover:bg-graylightsecondarytextcolor cursor-pointer">
-        <Ripples className=" w-full h-full flex p-2 gap-2 items-center" during={1200}>
+        <Ripples
+          className=" w-full h-full flex p-2 gap-2 items-center"
+          during={1200}
+        >
           <div className="border-2 border-brown-200 rounded-full">
             <Avatar src={Demo} className="min-w-[3rem]" />
           </div>

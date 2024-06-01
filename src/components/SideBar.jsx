@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaBars, FaRegUser } from "react-icons/fa6";
+import { FaBars, FaPen, FaRegUser } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import {
   IoCloseOutline,
@@ -7,7 +7,7 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { motion } from "framer-motion";
-import { IconButton } from "@material-tailwind/react";
+import { Button, IconButton } from "@material-tailwind/react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import ChatList from "./ChatList";
 
@@ -24,8 +24,8 @@ const SideBar = () => {
   };
 
   return (
-    <div className="min-w-[25rem] w-[25rem] h-screen border border-r-2 border-grayborder bg-graysurface overflow-hidden">
-      <div className="w-full h-full">
+    <div className="min-w-[25rem] w-[25rem] h-screen border border-r-2 border-grayborder bg-graysurface overflow-hidden relative">
+      <div className="w-full h-full relative">
         <div className=" px-5 py-2 flex gap-2 items-center">
           <IconButton
             className={`hover:bg-graylightsecondarytextcolor p-5 ${
@@ -107,6 +107,11 @@ const SideBar = () => {
           </div>
         </div>
         <ChatList />
+        <div className="absolute bottom-5 right-5">
+          <Button className="bg-brown-400 rounded-full p-5 hover:bg-brown-500 transition-colors active:bg-brown-600">
+            <FaPen className="size-5 p-0 "/>
+          </Button>
+        </div>
       </div>
     </div>
   );
