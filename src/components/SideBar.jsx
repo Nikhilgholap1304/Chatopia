@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaBars, FaPen, FaRegUser } from "react-icons/fa6";
+import { FaArrowLeft, FaBars, FaPen, FaRegUser } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import {
   IoCloseOutline,
@@ -14,12 +14,16 @@ import ChatList from "./ChatList";
 const SideBar = () => {
   const [input, setInput] = useState("");
   const [menuActive, setMenuActive] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
 
   const handleChange = (e) => {
     setInput(e.target.value);
   };
 
   const handleMenuActive = () => {
+    if (searchActive) {
+      return setSearchActive(false);
+    }
     setMenuActive(!menuActive);
   };
 
@@ -33,7 +37,25 @@ const SideBar = () => {
             }`}
             onClick={handleMenuActive}
           >
-            <FaBars className="w-5 h-5 text-graysecondarytextcolor" />
+            <div
+              className="w-full h-full"
+              onClick={() => searchActive && setSearchActive(false)}
+            >
+              <FaArrowLeft
+                className={`w-5 h-5 text-graysecondarytextcolor translate-y-1/2 transition-all ease-in-out duration-200 ${
+                  searchActive
+                    ? "scale-100 opacity-1 visible rotate-0"
+                    : "scale-50 opacity-0 invisible rotate-90"
+                }`}
+              />
+              <FaBars
+                className={`w-5 h-5 text-graysecondarytextcolor -translate-y-1/2 transition-all ease-in-out duration-200 ${
+                  searchActive
+                    ? "scale-50 opacity-0 invisible rotate-90"
+                    : "scale-100 opacity-1 visible rotate-0"
+                }`}
+              />
+            </div>
           </IconButton>
           <div
             className={`absolute bg-transparent left-0 top-0 w-screen h-screen z-50 ${
@@ -65,7 +87,10 @@ const SideBar = () => {
               </div>
             </motion.div>
           </div>
-          <div className="relative overflow-hidden w-full items-center flex h-10 z-[1]">
+          <div
+            className="relative overflow-hidden w-full items-center flex h-10 z-[1]"
+            onClick={() => setSearchActive(true)}
+          >
             <input
               type="text"
               className="w-full px-10 h-full flex-1 bg-graymain border-[1px] border-solid border-grayinputborder hover:border-gray-600 outline-none text-base caret-brown-200 relative z-[1] rounded-full peer transition-colors duration-300"
@@ -106,12 +131,21 @@ const SideBar = () => {
             </motion.span>
           </div>
         </div>
-        <ChatList />
-        <div className="absolute bottom-5 right-5">
-          <Button className="bg-brown-400 rounded-full p-5 hover:bg-brown-500 transition-colors active:bg-brown-600">
-            <FaPen className="size-5 p-0 "/>
-          </Button>
+        <div>
+          <ChatList searchActive={searchActive} />
         </div>
+        <motion.div
+          className="absolute bottom-5 right-5"
+          animate={{
+            y: searchActive ? 100 : 0,
+          }}
+        >
+          <Button
+            className={`bg-brown-400 rounded-full p-5 hover:bg-brown-500 transition-colors active:bg-brown-600`}
+          >
+            <FaPen className="size-5 p-0 " />
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
