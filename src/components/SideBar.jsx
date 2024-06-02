@@ -23,9 +23,11 @@ const SideBar = () => {
 
   const handleMenuActive = () => {
     if (searchActive) {
-      return setSearchActive(false);
+      setSearchActive(false);
+      setInput("")
+    } else {
+      setMenuActive(!menuActive);
     }
-    setMenuActive(!menuActive);
   };
 
   return (
@@ -134,7 +136,7 @@ const SideBar = () => {
         </div>
         <div className="flex relative">
           <ChatList searchActive={searchActive} />
-          <SearchList searchActive={searchActive} />
+          <SearchList searchActive={searchActive} input={input} />
         </div>
         <motion.div
           className="absolute bottom-5 right-5"
