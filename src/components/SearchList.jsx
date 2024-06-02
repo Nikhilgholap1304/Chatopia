@@ -5,14 +5,13 @@ import { Avatar, Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 
-const ChatList = ({ searchActive }) => {
+const SearchList = ({ searchActive }) => {
   return (
-    <>
-      <motion.section
-        className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem] absolute`}
+    <motion.section
+        className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem]`}
         animate={{
-          x: searchActive ? '100%' : 0,
-          opacity: searchActive ? 0 : 1
+          x: searchActive ? '0' : '-100%',
+          opacity: searchActive ? 1 : 0
         }}
         transition={{
           duration : 0.1
@@ -30,7 +29,7 @@ const ChatList = ({ searchActive }) => {
             </div>
             <div className="flex flex-col justify-center w-full">
               <div className="flex justify-between">
-                <h5 className="leading-5">Arjun Pandey</h5>
+                <h5 className="leading-5">Search result</h5>
                 <p className="text-xs leading-3">15:35</p>
               </div>
               <div className="flex justify-between items-center">
@@ -38,7 +37,7 @@ const ChatList = ({ searchActive }) => {
                   className="text-nowrap max-w-[17rem] whitespace-nowrap
               text-ellipsis overflow-hidden text-base text-graysecondarytextcolor"
                 >
-                  This message couldnt be displayed and all
+                  This message couldnt be searched and all
                 </p>
                 <span className="bg-brown-500 size-6 grid place-content-center rounded-full leading-4 text-sm">
                   5
@@ -49,8 +48,7 @@ const ChatList = ({ searchActive }) => {
         </div>
         
       </motion.section>
-    </>
-  );
-};
+  )
+}
 
-export default ChatList;
+export default SearchList

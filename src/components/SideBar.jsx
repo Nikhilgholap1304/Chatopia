@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { Button, IconButton } from "@material-tailwind/react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import ChatList from "./ChatList";
+import SearchList from "./SearchList";
 
 const SideBar = () => {
   const [input, setInput] = useState("");
@@ -28,7 +29,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="min-w-[25rem] w-[25rem] h-screen border border-r-2 border-grayborder bg-graysurface overflow-hidden relative">
+    <div className="2xs:w-[100%] w-[25rem] h-screen border border-r-2 border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem]">
       <div className="w-full h-full relative">
         <div className=" px-5 py-2 flex gap-2 items-center">
           <IconButton
@@ -131,8 +132,9 @@ const SideBar = () => {
             </motion.span>
           </div>
         </div>
-        <div>
+        <div className="flex relative">
           <ChatList searchActive={searchActive} />
+          <SearchList searchActive={searchActive} />
         </div>
         <motion.div
           className="absolute bottom-5 right-5"
