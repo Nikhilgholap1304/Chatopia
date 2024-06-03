@@ -9,6 +9,7 @@ import { db } from "../lib/firebase";
 
 const SearchList = ({ searchActive, input }) => {
   const [searchUsers, setSearchUsers] = useState([]);
+  const [searchSkeleLoading, setSearchSkeleLoading] = useState(false);
 
   useEffect(() => {
     const handleUserSearch = async () => {
@@ -17,6 +18,7 @@ const SearchList = ({ searchActive, input }) => {
         return;
       }
       try {
+        setSearchSkeleLoading(true);
         const usersRef = collection(db, "users");
         // const lowerCaseInput = input.toLowerCase();
 
@@ -33,6 +35,9 @@ const SearchList = ({ searchActive, input }) => {
           ...doc.data(),
         }));
         setSearchUsers(usersList);
+        setTimeout(() => {
+          setSearchSkeleLoading(false);
+        }, 300);
         console.log(usersList);
       } catch (err) {
         console.log(err);
@@ -57,23 +62,30 @@ const SearchList = ({ searchActive, input }) => {
         <motion.div
           className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative `}
           initial={{
-            y:(index+2)*5
+            y: (index + 2) * 5,
           }}
           animate={{
-            y:0
+            y: 0,
           }}
         >
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
           >
-            <div className="border-2 border-brown-200 rounded-full">
-              <Avatar src={user.avatar || Demo} className="min-w-[3rem]" />
+            <div className=" rounded-full size-[3rem] min-w-[3rem]">
+              {searchSkeleLoading ? (
+                <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
+              ) : (
+                <Avatar
+                  src={user.avatar || Demo}
+                  className="w-full h-full border-brown-200 border-2"
+                />
+              )}
             </div>
             <div className="flex flex-col justify-center w-full">
               <div className="flex justify-between">
-                <h5 className="leading-5">{user.username}</h5>
                 {/* <p className="text-xs leading-3">15:35</p> */}
+                <h5 className="leading-5">{user.username}</h5>
               </div>
               <div className="flex justify-between items-center">
                 <p
