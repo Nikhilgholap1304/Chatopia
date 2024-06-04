@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Demo from "../assets/Demo.jpg";
 import "./style/style.scss";
 import { Avatar, Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 
-const ChatList = ({ searchActive }) => {
+const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
+  useEffect(()=>{
+    console.log(sideBarOpen)
+  },[sideBarOpen])
   return (
     <>
       <motion.section
@@ -20,10 +23,11 @@ const ChatList = ({ searchActive }) => {
       >
         <div
           className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative `}
-        >
+          >
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
+            onClick={()=>setSideBarOpen(false)}
           >
             <div className=" rounded-full size-[3rem] min-w-[3rem]">
               {/* <div className="w-full h-full bg-gray-800 rounded-full animate-pulse"/> */}

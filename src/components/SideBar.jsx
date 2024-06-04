@@ -11,11 +11,16 @@ import { Button, IconButton } from "@material-tailwind/react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import ChatList from "./ChatList";
 import SearchList from "./SearchList";
+import { useMediaQuery } from "react-responsive";
 
-const SideBar = () => {
+const SideBar = ({sideBarOpen, setSideBarOpen}) => {
   const [input, setInput] = useState("");
   const [menuActive, setMenuActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
+
+  const Max960 = useMediaQuery({
+    query: "(max-width: 960px)",
+  });
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -31,7 +36,15 @@ const SideBar = () => {
   };
 
   return (
-    <div className="2xs:w-[100%] w-[25rem] h-screen border border-r-2 border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem]">
+    <motion.div className={`2xs:w-[100%] 2xs:border-r-0 xs:border-r-2 w-[25rem] h-screen lg:!border-r-2 border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center `}
+    initial={{flex:0}}
+    animate={{
+      // x:!sideBarOpen ? -100 : 0,
+      flex:sideBarOpen ? 1 : 0 
+    }}
+    transition={{
+      duration : Max960 ? 0.2 : 0.3 
+    }}>
       <div className="w-full h-full relative">
         <div className=" px-5 py-2 flex gap-2 items-center">
           <IconButton
@@ -135,7 +148,7 @@ const SideBar = () => {
           </div>
         </div>
         <div className="flex relative">
-          <ChatList searchActive={searchActive} />
+          <ChatList searchActive={searchActive} setSideBarOpen = {setSideBarOpen} sideBarOpen={sideBarOpen}/>
           <SearchList searchActive={searchActive} input={input} />
         </div>
         <motion.div
@@ -151,7 +164,7 @@ const SideBar = () => {
           </Button>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

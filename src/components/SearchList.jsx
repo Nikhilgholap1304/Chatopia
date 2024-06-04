@@ -78,7 +78,7 @@ const SearchList = ({ searchActive, input }) => {
                 <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
               ) : (
                 <Avatar
-                  src={user.avatar && user.avatar}
+                  src={user.avatar ? user.avatar : ''}
                   round={true}
                   name={user?.username?.charAt(0)}
                   className="w-full h-full m-auto border-brown-200 border border-t"
