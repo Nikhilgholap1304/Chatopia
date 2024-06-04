@@ -11,12 +11,12 @@ const Dashboard = () => {
   const Navigate = useNavigate();
   const { currentUid } = useAuth();
   const [sideBarOpen, setSideBarOpen] = useState(true);
-  const Max960 = useMediaQuery({
-    query: "(max-width: 960px)",
+  const Max1080 = useMediaQuery({
+    query: "(max-width: 1080px)",
   });
 
   useEffect(() => {
-    if (!Max960) {
+    if (!Max1080) {
       setSideBarOpen(true);
     }
   },[sideBarOpen, setSideBarOpen]);

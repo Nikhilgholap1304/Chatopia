@@ -101,7 +101,8 @@ const SearchList = ({ searchActive, input }) => {
                   <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded" />
                 ) : (
                   <p
-                    className="text-nowrap max-w-[17rem] whitespace-nowrap
+                    className="text-nowrap flex-[10rem]
+                    w-[10rem] whitespace-nowrap
               text-ellipsis overflow-hidden text-sm text-graysecondarytextcolor"
                   >
                     @{user.username}

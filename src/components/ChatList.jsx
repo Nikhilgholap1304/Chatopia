@@ -6,13 +6,10 @@ import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 
 const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
-  useEffect(()=>{
-    console.log(sideBarOpen)
-  },[sideBarOpen])
   return (
     <>
       <motion.section
-        className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem] absolute`}
+        className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem] absolute `}
         animate={{
           x: searchActive ? "100%" : 0,
           opacity: searchActive ? 0 : 1,
@@ -43,9 +40,10 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
                 <p className="text-xs leading-3">15:35</p>
                 {/* <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded"/> */}
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-2">
                 <p
-                  className="text-nowrap max-w-[17rem] whitespace-nowrap
+                  className="text-nowrap flex-[10rem]
+                  w-[10rem] whitespace-nowrap
               text-ellipsis overflow-hidden text-base text-graysecondarytextcolor"
                 >
                   This message couldnt be displayed and all

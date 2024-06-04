@@ -18,8 +18,8 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
   const [menuActive, setMenuActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
-  const Max960 = useMediaQuery({
-    query: "(max-width: 960px)",
+  const Max1080 = useMediaQuery({
+    query: "(max-width: 1080px)",
   });
 
   const handleChange = (e) => {
@@ -36,14 +36,14 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
   };
 
   return (
-    <motion.div className={`2xs:w-[100%] 2xs:border-r-0 xs:border-r-2 w-[25rem] h-screen lg:!border-r-2 border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center `}
+    <motion.div className={`2xs:w-[100%] border-r-0 lg:border-r-2 w-[25rem] h-screen border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center ${!sideBarOpen && '!border-none'}`}
     initial={{flex:0}}
     animate={{
       // x:!sideBarOpen ? -100 : 0,
       flex:sideBarOpen ? 1 : 0 
     }}
     transition={{
-      duration : Max960 ? 0.2 : 0.3 
+      duration : Max1080 ? 0.2 : 0.3 
     }}>
       <div className="w-full h-full relative">
         <div className=" px-5 py-2 flex gap-2 items-center">
