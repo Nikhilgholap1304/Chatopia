@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Demo from "../assets/Demo.jpg";
 import "./style/style.scss";
-import { Avatar, Button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import Avatar from "react-avatar";
 
 const SearchList = ({ searchActive, input }) => {
   const [searchUsers, setSearchUsers] = useState([]);
@@ -72,28 +73,40 @@ const SearchList = ({ searchActive, input }) => {
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
           >
-            <div className=" rounded-full size-[3rem] min-w-[3rem]">
+            <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem] ">
               {searchSkeleLoading ? (
                 <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
               ) : (
                 <Avatar
-                  src={user.avatar || Demo}
-                  className="w-full h-full border-brown-200 border-2"
+                  src={user.avatar && user.avatar}
+                  round={true}
+                  name="Foo bar"
+                  className="w-full h-full m-auto border-brown-200 border border-t"
+                  size="100%"
+                  color="rgb(141 110 99)"
                 />
               )}
             </div>
-            <div className="flex flex-col justify-center w-full">
+            <div className="flex flex-col justify-center w-full gap-1">
               <div className="flex justify-between">
                 {/* <p className="text-xs leading-3">15:35</p> */}
-                <h5 className="leading-5">{user.username}</h5>
+                {searchSkeleLoading ? (
+                  <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded" />
+                ) : (
+                  <h5 className="leading-5">{user.username}</h5>
+                )}
               </div>
               <div className="flex justify-between items-center">
-                <p
-                  className="text-nowrap max-w-[17rem] whitespace-nowrap
+                {searchSkeleLoading ? (
+                  <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded" />
+                ) : (
+                  <p
+                    className="text-nowrap max-w-[17rem] whitespace-nowrap
               text-ellipsis overflow-hidden text-sm text-graysecondarytextcolor"
-                >
-                  @{user.username}
-                </p>
+                  >
+                    @{user.username}
+                  </p>
+                )}
                 {/* <span className="bg-brown-500 size-6 grid place-content-center rounded-full leading-4 text-sm">
                   5
                 </span> */}

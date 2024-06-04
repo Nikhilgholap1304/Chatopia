@@ -29,7 +29,7 @@ const ChatList = ({ searchActive }) => {
               {/* <div className="w-full h-full bg-gray-800 rounded-full animate-pulse"/> */}
               <Avatar
                 src={Demo}
-                className="w-full h-full border-brown-200 border-2"
+                className="w-full h-full border-brown-200 border-[1px]"
               />
             </div>
             <div className="flex flex-col justify-center w-full gap-1">
