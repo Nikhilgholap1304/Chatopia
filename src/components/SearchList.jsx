@@ -80,7 +80,7 @@ const SearchList = ({ searchActive, input }) => {
                 <Avatar
                   src={user.avatar && user.avatar}
                   round={true}
-                  name="Foo bar"
+                  name={user?.username?.charAt(0)}
                   className="w-full h-full m-auto border-brown-200 border border-t"
                   size="100%"
                   color="rgb(141 110 99)"
