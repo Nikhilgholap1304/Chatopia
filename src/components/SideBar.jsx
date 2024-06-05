@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaBars, FaPen, FaRegUser } from "react-icons/fa6";
+import {
+  FaArrowLeft,
+  FaBars,
+  FaPen,
+  FaRegUser,
+  FaUser,
+  FaUserGroup,
+} from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import {
+  IoClose,
   IoCloseOutline,
   IoSearchOutline,
   IoSettingsOutline,
@@ -13,9 +21,10 @@ import ChatList from "./ChatList";
 import SearchList from "./SearchList";
 import { useMediaQuery } from "react-responsive";
 
-const SideBar = ({sideBarOpen, setSideBarOpen}) => {
+const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
   const [input, setInput] = useState("");
   const [menuActive, setMenuActive] = useState(false);
+  const [bottomMenu, setBottomMenu] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
   const Max1080 = useMediaQuery({
@@ -29,22 +38,26 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
   const handleMenuActive = () => {
     if (searchActive) {
       setSearchActive(false);
-      setInput("")
+      setInput("");
     } else {
       setMenuActive(!menuActive);
     }
   };
 
   return (
-    <motion.div className={`2xs:w-[100%] border-r-0 lg:border-r-2 w-[25rem] h-screen border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center ${!sideBarOpen && '!border-none'}`}
-    initial={{flex:0}}
-    animate={{
-      // x:!sideBarOpen ? -100 : 0,
-      flex:sideBarOpen ? 1 : 0 
-    }}
-    transition={{
-      duration : Max1080 ? 0.2 : 0.3 
-    }}>
+    <motion.div
+      className={`2xs:w-[100%] border-r-0 lg:border-r-2 w-[25rem] h-screen border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center ${
+        !sideBarOpen && "!border-none"
+      }`}
+      initial={{ flex: 0 }}
+      animate={{
+        // x:!sideBarOpen ? -100 : 0,
+        flex: sideBarOpen ? 1 : 0,
+      }}
+      transition={{
+        duration: Max1080 ? 0.2 : 0.3,
+      }}
+    >
       <div className="w-full h-full relative">
         <div className="px-2 py-2 gap-1 sm:px-3 sm:py-2 flex xs:gap-2 items-center">
           <IconButton
@@ -88,17 +101,17 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
                 scale: menuActive ? 1 : 0.8,
               }}
             >
-              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-colors active:scale-[0.95]">
-                <FiUser className="w-[1rem] h-[1rem] -mt-[2px]" />
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                <FiUser className="size-[1.2rem] -mt-[2px]" />
                 <span className="font-medium text-sm">Profile</span>
               </div>
-              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-colors active:scale-[0.95]">
-                <IoSettingsOutline className="w-[1rem] h-[1rem]" />
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                <IoSettingsOutline className="size-[1.2rem]" />
                 <span className="font-medium text-sm">Settings</span>
               </div>
               <hr className="text-grayinputborder border-grayinputborder" />
-              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-colors active:scale-[0.95]">
-                <FiLogOut className="w-[1rem] h-[1rem]" />
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                <FiLogOut className="size-[1.2rem]" />
                 <span className="font-medium text-sm">Logout</span>
               </div>
             </motion.div>
@@ -148,21 +161,65 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
           </div>
         </div>
         <div className="flex relative">
-          <ChatList searchActive={searchActive} setSideBarOpen = {setSideBarOpen} sideBarOpen={sideBarOpen}/>
+          <ChatList
+            searchActive={searchActive}
+            setSideBarOpen={setSideBarOpen}
+            sideBarOpen={sideBarOpen}
+          />
           <SearchList searchActive={searchActive} input={input} />
         </div>
-        <motion.div
-          className="absolute bottom-5 right-5"
-          animate={{
-            y: searchActive ? 100 : 0,
-          }}
-        >
-          <Button
-            className={`bg-brown-400 rounded-full p-5 hover:bg-brown-500 transition-colors active:bg-brown-600`}
+        <div className="absolute bottom-5 right-5">
+          <motion.div
+            className="relative flex justify-center"
+            animate={{
+              y: searchActive ? 100 : 0,
+            }}
           >
-            <FaPen className="size-5 p-0 " />
-          </Button>
-        </motion.div>
+            <Button
+              className={`bg-brown-400 rounded-full size-[3.7rem] hover:bg-brown-500 transition-colors active:bg-brown-600 flex items-center justify-center`}
+              onClick={() => setBottomMenu(!bottomMenu)}
+            >
+              <FaPen
+                className={`size-5 p-0 absolute transition-all ${
+                  bottomMenu ? "scale-0" : "scale-100"
+                }`}
+              />
+              <IoClose
+                className={`size-8 p-0 absolute transition-all ${
+                  bottomMenu ? "scale-100" : "scale-0"
+                }`}
+              />
+            </Button>
+            <div
+              className={`absolute w-[100vw] h-[100vh] bg-transparent bottom-0 -right-10 z-50 transition-all ${
+                bottomMenu ? "visible" : "invisible"
+              }`}
+              onClick={() => setBottomMenu(false)}
+              onMouseLeave={() => setBottomMenu(false)}
+            >
+              <motion.div
+                className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg absolute cursor-pointer origin-bottom-right bottom-20 right-10 `}
+                onClick={(e) => {
+                  setBottomMenu(false);
+                  e.stopPropagation();
+                }}
+                animate={{
+                  opacity: bottomMenu ? 1 : 0,
+                  scale: bottomMenu ? 1 : 0.3,
+                }}
+              >
+                <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                  <FaUserGroup className="size-[1.3rem] -mt-[2px]" />
+                  <span className="font-medium text-sm">New Group</span>
+                </div>
+                <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                  <FaRegUser className="size-[1.2rem] -mt-[2px]" />
+                  <span className="font-medium text-sm">New Private Chat</span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </motion.div>
   );

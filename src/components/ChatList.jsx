@@ -49,8 +49,8 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
                   This message couldnt be displayed and all
                 </p>
                 {/* <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
-                <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-4 xs:text-sm text-xs">
-                  5
+                <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs">
+                  2
                 </span>
                 {/* <div className="w-4 h-4 bg-gray-800 animate-pulse rounded"/> */}
               </div>

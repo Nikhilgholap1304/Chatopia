@@ -1,13 +1,18 @@
 import { IconButton } from "@material-tailwind/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { IoCallOutline, IoEllipsisVertical, IoSearch } from "react-icons/io5";
 import Demo from "../assets/Demo.jpg";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaRegUser, FaUserGroup } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
-
+import { motion } from "framer-motion";
+import { BsCameraVideo } from "react-icons/bs";
+import { MdDeleteOutline } from "react-icons/md";
+import { FiLock } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
+  const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
@@ -25,7 +30,9 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
       <div className="absolute top-0 left-0 right-0 bg-graysurface w-full 2xs:px-2 sm:px-4 md:px-5 py-2 shadow flex justify-between items-center gap-3 cursor-pointer">
         <div className="flex gap-2 items-center justify-center">
           <IconButton
-            className={`hover:bg-graylightsecondarytextcolor xs:!p-5 2xs:p-2 ${Max1080 ? 'flex' : 'hidden'}`}
+            className={`hover:bg-graylightsecondarytextcolor xs:!p-5 2xs:p-2 ${
+              Max1080 ? "flex" : "hidden"
+            }`}
             onClick={() => setSideBarOpen(!sideBarOpen)}
           >
             <FaArrowLeft
@@ -63,9 +70,60 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             >
               <IoSearch className="size-6 text-graysecondarytextcolor" />
             </IconButton>
-            <IconButton className={`hover:bg-graylightsecondarytextcolor p-5 2xs:p-3 sm:!p-5 `}>
-              <IoEllipsisVertical className="size-6 2xs:size-5 xs:!size-6 text-graysecondarytextcolor" />
-            </IconButton>
+            <div className="relative">
+              <IconButton
+                className={`hover:bg-graylightsecondarytextcolor p-5 2xs:p-3 sm:!p-5 `}
+                onClick={() => setSideMenuOpen(!sideMenuOpen)}
+              >
+                <IoEllipsisVertical className="size-6 2xs:size-5 xs:!size-6 text-graysecondarytextcolor" />
+              </IconButton>
+              <div
+                className={`absolute w-[100vw] h-[100vh] bg-transparent -right-10 -top-3 z-50 transition-all ${
+                  sideMenuOpen ? "visible" : "invisible"
+                }`}
+                onClick={() => setSideMenuOpen(false)}
+                onMouseLeave={() => setSideMenuOpen(false)}
+              >
+                <motion.div
+                  className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg absolute cursor-pointer origin-top-right top-[3.8rem] right-10 `}
+                  onClick={(e) => {
+                    setSideMenuOpen(false);
+                    e.stopPropagation();
+                  }}
+                  animate={{
+                    opacity: sideMenuOpen ? 1 : 0,
+                    scale: sideMenuOpen ? 1 : 0.3,
+                  }}
+                >
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                    <IoSearch className="size-[1.3rem]" />
+                    <span className="font-medium text-sm">Search</span>
+                  </div>
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                    <IoCallOutline className="size-[1.3rem]" />
+                    <span className="font-medium text-sm">Call</span>
+                  </div>
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                    <BsCameraVideo className="size-[1.2rem]" />
+                    <span className="font-medium text-sm">
+                      Video Call
+                    </span>
+                  </div>
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                    <FiLock className="size-[1.2rem]" />
+                    <span className="font-medium text-sm">
+                      Block User
+                    </span>
+                  </div>
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300">
+                    <AiOutlineDelete className="size-[1.4rem]" />
+                    <span className="font-medium text-sm">
+                      Delete Chat
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
