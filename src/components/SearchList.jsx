@@ -39,7 +39,7 @@ const SearchList = ({ searchActive, input }) => {
         setTimeout(() => {
           setSearchSkeleLoading(false);
         }, 300);
-        console.log(usersList);
+        // console.log(usersList);
       } catch (err) {
         console.log(err);
       }
@@ -73,12 +73,12 @@ const SearchList = ({ searchActive, input }) => {
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
           >
-            <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem] ">
+            <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
               {searchSkeleLoading ? (
                 <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
               ) : (
                 <Avatar
-                  src={user.avatar ? user.avatar : ''}
+                  src={user.avatar ? user.avatar : ""}
                   round={true}
                   name={user?.username?.charAt(0)}
                   className="w-full h-full m-auto border-brown-200 border border-t"
@@ -93,7 +93,9 @@ const SearchList = ({ searchActive, input }) => {
                 {searchSkeleLoading ? (
                   <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded" />
                 ) : (
-                  <h5 className="leading-5">{user.username}</h5>
+                  <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">
+                    {user.username}
+                  </h5>
                 )}
               </div>
               <div className="flex justify-between items-center">
@@ -103,7 +105,7 @@ const SearchList = ({ searchActive, input }) => {
                   <p
                     className="text-nowrap flex-[10rem]
                     w-[10rem] whitespace-nowrap
-              text-ellipsis overflow-hidden text-sm text-graysecondarytextcolor"
+              text-ellipsis overflow-hidden xs:text-base text-sm text-graysecondarytextcolor"
                   >
                     @{user.username}
                   </p>

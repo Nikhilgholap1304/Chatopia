@@ -35,7 +35,7 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
             </div>
             <div className="flex flex-col justify-center w-full gap-1">
               <div className="flex justify-between">
-                <h5 className="leading-5">Arjun Pandey</h5>
+                <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">Arjun Pandey</h5>
                 {/* <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
                 <p className="text-xs leading-3">15:35</p>
                 {/* <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded"/> */}
@@ -44,12 +44,12 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
                 <p
                   className="text-nowrap flex-[10rem]
                   w-[10rem] whitespace-nowrap
-              text-ellipsis overflow-hidden text-base text-graysecondarytextcolor"
+              text-ellipsis overflow-hidden xs:text-base text-sm text-graysecondarytextcolor"
                 >
                   This message couldnt be displayed and all
                 </p>
                 {/* <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
-                <span className="bg-brown-500 size-6 grid place-content-center rounded-full leading-4 text-sm">
+                <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-4 xs:text-sm text-xs">
                   5
                 </span>
                 {/* <div className="w-4 h-4 bg-gray-800 animate-pulse rounded"/> */}

@@ -46,7 +46,7 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
       duration : Max1080 ? 0.2 : 0.3 
     }}>
       <div className="w-full h-full relative">
-        <div className=" px-5 py-2 flex gap-2 items-center">
+        <div className="px-2 py-2 gap-1 xs:px-5 xs:py-2 flex xs:gap-2 items-center">
           <IconButton
             className={`hover:bg-graylightsecondarytextcolor p-5 ${
               menuActive ? "bg-graylightsecondarytextcolor" : ""
