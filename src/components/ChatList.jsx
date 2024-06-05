@@ -37,7 +37,7 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
               <div className="flex justify-between">
                 <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">Arjun Pandey</h5>
                 {/* <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
-                <p className="text-xs leading-3">15:35</p>
+                <p className="xs:text-xs text-[0.7rem] leading-3 text-graysecondarytextcolor">15:35</p>
                 {/* <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded"/> */}
               </div>
               <div className="flex justify-between items-center gap-2">

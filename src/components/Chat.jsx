@@ -14,7 +14,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   return (
     <div
       className={`w-full h-full flex-2 2xs:translate-x-[100vw] 2xs:flex-[0] lg:!translate-x-0 lg:!flex-1 lg:!w-full flex relative transition-all ${
-        !sideBarOpen && "2xs:translate-x-0 2xs:flex-[1] :"
+        !sideBarOpen && "2xs:!translate-x-0 2xs:flex-[1]"
       }`}
       style={{
         backgroundImage:

@@ -46,7 +46,7 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
       duration : Max1080 ? 0.2 : 0.3 
     }}>
       <div className="w-full h-full relative">
-        <div className="px-2 py-2 gap-1 xs:px-5 xs:py-2 flex xs:gap-2 items-center">
+        <div className="px-2 py-2 gap-1 sm:px-3 sm:py-2 flex xs:gap-2 items-center">
           <IconButton
             className={`hover:bg-graylightsecondarytextcolor p-5 ${
               menuActive ? "bg-graylightsecondarytextcolor" : ""
@@ -74,16 +74,16 @@ const SideBar = ({sideBarOpen, setSideBarOpen}) => {
             </div>
           </IconButton>
           <div
-            className={`absolute bg-transparent left-0 top-0 w-screen h-screen z-50 ${
+            className={`fixed bg-[rgba(0,0,0,0.17)] left-0 top-0 right-0 w-screen h-screen z-50 ${
               menuActive ? "visible" : "invisible"
             } transition-all`}
             onClick={handleMenuActive}
           >
             <motion.div
-              className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg translate-x-4 absolute left-0 top-[3.3rem] cursor-pointer origin-top-left z-1`}
+              className={`bg-gray-900 w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg translate-x-4 absolute left-0 top-[3.3rem] cursor-pointer origin-top-left z-1`}
               // onClick={(e)=>e.stopPropagation()}
               animate={{
-                x: 22,
+                x: 13,
                 opacity: menuActive ? 1 : 0,
                 scale: menuActive ? 1 : 0.8,
               }}
