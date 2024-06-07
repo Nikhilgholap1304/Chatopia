@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",
     "autoprefixer": "^10.4.19",
+    "emoji-picker-react": "^4.9.4",
     "firebase": "^10.12.2",
     "framer-motion": "^11.2.10",
     "postcss": "^8.4.38",

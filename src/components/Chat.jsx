@@ -153,7 +153,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             <div className="flex-[1] relative flex items-center m-auto">
               <textarea
                 // type="text"
-                className=" bg-transparent text-sm caret-brown-200 border-none outline-none relative z-[1] w-full py-2 flex items-center"
+                className=" bg-transparent text-sm caret-brown-200 border-none outline-none relative z-[1] w-full py-2 flex items-center chattextarea"
                 onChange={(e)=>handleIsMsgChange(e)}
                 value={isMsg}
                 wrap="soft"
