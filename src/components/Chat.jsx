@@ -233,6 +233,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               />
             </motion.div>
           </div>
+          <div></div>
         </div>
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
