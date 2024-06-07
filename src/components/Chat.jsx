@@ -16,16 +16,26 @@ import { FiLock } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
-import '../components/style/style.scss';
+import "../components/style/style.scss";
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isMsg, setIsMsg] = useState("");
+  const [isPickerActivate, setIsPickerActivate] = useState(false);
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
+  const Max450 = useMediaQuery({
+    query: "(max-width: 450px)",
+  });
   const handleIsMsgChange = (e) => {
     setIsMsg(e.target.value);
+  };
+  const handleActivatePicker = () => {
+    setIsPickerActivate(!isPickerActivate);
+  };
+  const handleEmoji = (e) => {
+    setIsMsg((prev) => prev + e.emoji);
   };
   return (
     <div
@@ -148,8 +158,18 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
         <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center relative">
           <div className="flex flex-1 shadow-lg relative items-end">
             <div className="flex items-center p-2">
-              <Button className="xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor transition-all cursor-pointer active:text-brown-200">
-                <BsEmojiSmile className="text-xl text-graysecondarytextcolor" />
+              <Button
+                className={`xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor
+                ${
+                  isPickerActivate && "bg-graylightsecondarytextcolor "
+                } transition-all cursor-pointer active:text-brown-200`}
+                onClick={handleActivatePicker}
+              >
+                <BsEmojiSmile
+                  className={`text-xl text-graysecondarytextcolor ${
+                    isPickerActivate && "!text-brown-300"
+                  }`}
+                />
               </Button>
             </div>
             <div className="flex-[1] relative flex items-center m-auto">
@@ -188,8 +208,30 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               className="absolute w-2 h-3 left-[99.5%] bottom-0 bg-graysurface"
             ></div>{" "}
           </div>
-          <div className="absolute left-0 bottom-[110%]">
-            <EmojiPicker theme="dark" lazyLoadEmojis="true" className="EmojiPicker" id="EmojiPicker"/>
+          <div
+            className={`absolute -left-[30rem] bottom-[110%] w-screen h-screen bg-transparent z-10 transition-all ${
+              isPickerActivate ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
+            onClick={() => setIsPickerActivate(false)}
+          >
+            <motion.div
+              className="absolute left-[30rem]  origin-bottom-left bottom-0"
+              animate={{
+                scale: isPickerActivate ? 1 : 0,
+                opacity: isPickerActivate ? 1 : 0,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <EmojiPicker
+                theme="dark"
+                lazyLoadEmojis="true"
+                className="EmojiPicker"
+                id="EmojiPicker"
+                width={Max450 ? 300 : 350}
+                height={Max450 ? 400 : 450}
+                onEmojiClick={(e) => handleEmoji(e)}
+              />
+            </motion.div>
           </div>
         </div>
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
