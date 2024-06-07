@@ -143,20 +143,21 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
         } lg:visible lg:w-full lg:flex transition-all justify-center items-center gap-2 py-[0.5rem]`}
       >
-        <div className="max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center">
+        <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center">
           <div className="flex flex-1 shadow-lg relative items-end">
             <div className="flex items-center p-2">
               <Button className="xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor transition-all cursor-pointer active:text-brown-200">
                 <BsEmojiSmile className="text-xl text-graysecondarytextcolor" />
               </Button>
             </div>
-            <div className="flex-[1] relative flex items-center">
+            <div className="flex-[1] relative flex items-center m-auto">
               <textarea
-                type="text"
+                // type="text"
                 className=" bg-transparent text-sm caret-brown-200 border-none outline-none relative z-[1] w-full py-2 flex items-center"
                 onChange={(e)=>handleIsMsgChange(e)}
                 value={isMsg}
                 wrap="soft"
+                rows="1"
               />
               <motion.span
                 className="absolute left-0 origin-right text-graysecondarytextcolor xs:text-base text-sm"
