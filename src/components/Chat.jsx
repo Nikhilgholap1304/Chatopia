@@ -15,6 +15,8 @@ import { BsCameraVideo, BsEmojiSmile } from "react-icons/bs";
 import { FiLock } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
+import EmojiPicker from "emoji-picker-react";
+import '../components/style/style.scss';
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
@@ -143,7 +145,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
         } lg:visible lg:w-full lg:flex transition-all justify-center items-center gap-2 py-[0.5rem]`}
       >
-        <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center">
+        <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center relative">
           <div className="flex flex-1 shadow-lg relative items-end">
             <div className="flex items-center p-2">
               <Button className="xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor transition-all cursor-pointer active:text-brown-200">
@@ -154,7 +156,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               <textarea
                 // type="text"
                 className=" bg-transparent text-sm caret-brown-200 border-none outline-none relative z-[1] w-full py-2 flex items-center chattextarea"
-                onChange={(e)=>handleIsMsgChange(e)}
+                onChange={(e) => handleIsMsgChange(e)}
                 value={isMsg}
                 wrap="soft"
                 rows="1"
@@ -166,7 +168,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   opacity: !isMsg ? 1 : 0,
                 }}
                 transition={{
-                  duration: 0.2
+                  duration: 0.2,
                 }}
               >
                 Message
@@ -185,6 +187,9 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               }}
               className="absolute w-2 h-3 left-[99.5%] bottom-0 bg-graysurface"
             ></div>{" "}
+          </div>
+          <div className="absolute left-0 bottom-[110%]">
+            <EmojiPicker theme="dark" lazyLoadEmojis="true" className="EmojiPicker" id="EmojiPicker"/>
           </div>
         </div>
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
