@@ -46,7 +46,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
 
   return (
     <motion.div
-      className={`2xs:w-[100%] border-r-0 lg:border-r-2 w-[25rem] h-screen border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center ${
+      className={`2xs:w-[100%] border-r-0 lg:border-r-2 w-[25rem] h-[100%] border-grayborder bg-graysurface overflow-hidden relative lg:max-w-[25rem] origin-center ${
         !sideBarOpen && "!border-none"
       }`}
       initial={{ flex: 0 }}
@@ -160,7 +160,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
             </motion.span>
           </div>
         </div>
-        <div className="flex relative">
+        <div className="flex relative h-full w-full">
           <ChatList
             searchActive={searchActive}
             setSideBarOpen={setSideBarOpen}

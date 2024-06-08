@@ -9,7 +9,7 @@ const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
   return (
     <>
       <motion.section
-        className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem] absolute `}
+        className={`flex flex-col w-full h-full overflow-x-hidden chatlist absolute `}
         animate={{
           x: searchActive ? "100%" : 0,
           opacity: searchActive ? 0 : 1,

@@ -50,7 +50,7 @@ const SearchList = ({ searchActive, input }) => {
 
   return (
     <motion.section
-      className={`flex flex-col w-full h-screen overflow-x-hidden chatlist pb-[3.7rem]`}
+      className={`flex flex-col w-full h-full overflow-x-hidden chatlist pb-[3.7rem]`}
       animate={{
         x: searchActive ? "0" : "-100%",
         opacity: searchActive ? 1 : 0,

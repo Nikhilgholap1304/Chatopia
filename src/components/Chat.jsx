@@ -149,7 +149,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           </div>
         </div>
       </div>
-      <div className="flex-1"></div>
+      <div className="flex-auto relative z-[1] w-[100%]"></div>
       <div
         className={`relative ${
           !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
