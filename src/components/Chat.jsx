@@ -8,7 +8,7 @@ import {
   IoSend,
 } from "react-icons/io5";
 import Demo from "../assets/Demo.jpg";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaRegUser, FaUserGroup } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import { BsCameraVideo, BsEmojiSmile } from "react-icons/bs";
@@ -17,11 +17,14 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
 import "../components/style/style.scss";
+import { HiOutlinePhoto, HiPhoto } from "react-icons/hi2";
+import { CgFileDocument } from "react-icons/cg";
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isMsg, setIsMsg] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
+  const [isUploadOpt, setIsUploadOpt] = useState(false);
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
@@ -156,10 +159,15 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
         } lg:visible lg:w-full lg:flex`}
       >
-        <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-3">
-          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
+        <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-2">
+          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-1 first:mt-1">
+            <div className="sticky top-1 w-full flex justify-center z-10">
+              <div className="bg-orange-900/50 py-[6px] px-3 rounded-full text-sm">
+                April 26
+              </div>
+            </div>
             <div className="flex justify-end">
-              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-2 rounded-xl rounded-r-sm rounded-br-sm relative">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
                 <h1>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
                   perspiciatis voluptatum, exercitationem commodi doloremque
@@ -195,128 +203,41 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
-              <div className="">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
-                perspiciatis voluptatum, exercitationem commodi doloremque
-                repudiandae, repellat libero eos aliquam asperiores explicabo
-                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
-                dignissimos asperiores minus rerum placeat nihil expedita
-                delectus tempora architecto non nostrum, aliquam a numquam
-                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
-                debitis vel totam sequi dignissimos quo vitae numquam odio
-                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
-                Reiciendis provident laudantium voluptatum, sint obcaecati
-                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
-                beatae mollitia officia, laboriosam quod minus voluptate ut id
-                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
-                Iusto, optio temporibus tempora vitae at harum eius similique
-                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
-                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
-                mollitia consectetur blanditiis labore enim! Exercitationem
-                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
-                omnis, a excepturi placeat minus quisquam quod ex est odio odit
-                et
-              </div>
-            </div>
-          </section>
-          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
-            <div className="flex justify-end">
-              <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
-                perspiciatis voluptatum, exercitationem commodi doloremque
-                repudiandae, repellat libero eos aliquam asperiores explicabo
-                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
-                dignissimos asperiores minus rerum placeat nihil expedita
-                delectus tempora architecto non nostrum, aliquam a numquam
-                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
-                debitis vel totam sequi dignissimos quo vitae numquam odio
-                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
-                Reiciendis provident laudantium voluptatum, sint obcaecati
-                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
-                beatae mollitia officia, laboriosam quod minus voluptate ut id
-                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
-                Iusto, optio temporibus tempora vitae at harum eius similique
-                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
-                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
-                mollitia consectetur blanditiis labore enim! Exercitationem
-                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
-                omnis, a excepturi placeat minus quisquam quod ex est odio odit
-                et
-              </div>
-            </div>
-            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
-              <div className="">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
-                perspiciatis voluptatum, exercitationem commodi doloremque
-                repudiandae, repellat libero eos aliquam asperiores explicabo
-                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
-                dignissimos asperiores minus rerum placeat nihil expedita
-                delectus tempora architecto non nostrum, aliquam a numquam
-                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
-                debitis vel totam sequi dignissimos quo vitae numquam odio
-                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
-                Reiciendis provident laudantium voluptatum, sint obcaecati
-                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
-                beatae mollitia officia, laboriosam quod minus voluptate ut id
-                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
-                Iusto, optio temporibus tempora vitae at harum eius similique
-                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
-                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
-                mollitia consectetur blanditiis labore enim! Exercitationem
-                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
-                omnis, a excepturi placeat minus quisquam quod ex est odio odit
-                et
-              </div>
-            </div>
-          </section>
-          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
-            <div className="flex justify-end">
-              <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
-                perspiciatis voluptatum, exercitationem commodi doloremque
-                repudiandae, repellat libero eos aliquam asperiores explicabo
-                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
-                dignissimos asperiores minus rerum placeat nihil expedita
-                delectus tempora architecto non nostrum, aliquam a numquam
-                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
-                debitis vel totam sequi dignissimos quo vitae numquam odio
-                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
-                Reiciendis provident laudantium voluptatum, sint obcaecati
-                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
-                beatae mollitia officia, laboriosam quod minus voluptate ut id
-                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
-                Iusto, optio temporibus tempora vitae at harum eius similique
-                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
-                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
-                mollitia consectetur blanditiis labore enim! Exercitationem
-                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
-                omnis, a excepturi placeat minus quisquam quod ex est odio odit
-                et
-              </div>
-            </div>
-            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
-              <div className="">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
-                perspiciatis voluptatum, exercitationem commodi doloremque
-                repudiandae, repellat libero eos aliquam asperiores explicabo
-                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
-                dignissimos asperiores minus rerum placeat nihil expedita
-                delectus tempora architecto non nostrum, aliquam a numquam
-                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
-                debitis vel totam sequi dignissimos quo vitae numquam odio
-                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
-                Reiciendis provident laudantium voluptatum, sint obcaecati
-                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
-                beatae mollitia officia, laboriosam quod minus voluptate ut id
-                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
-                Iusto, optio temporibus tempora vitae at harum eius similique
-                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
-                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
-                mollitia consectetur blanditiis labore enim! Exercitationem
-                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
-                omnis, a excepturi placeat minus quisquam quod ex est odio odit
-                et
+            <div className="flex justify-start">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-l-sm rounded-bl-none relative ">
+                <h1>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                  perspiciatis voluptatum, exercitationem commodi doloremque
+                  repudiandae, repellat libero eos aliquam asperiores explicabo
+                  quidem cumque delectus ducimus veniam cupiditate esse. Eos
+                  quae dignissimos asperiores minus rerum placeat nihil expedita
+                  delectus tempora architecto non nostrum, aliquam a numquam
+                  repellendus minima impedit nulla? Labore itaque ipsum
+                  cupiditate debitis vel totam sequi dignissimos quo vitae
+                  numquam odio incidunt, eaque iure atque. Maiores placeat
+                  laboriosam in eum! Reiciendis provident laudantium voluptatum,
+                  sint obcaecati quibusdam cupiditate possimus modi. Iusto eaque
+                  fugiat ipsam beatae mollitia officia, laboriosam quod minus
+                  voluptate ut id harum eligendi illo facere voluptas debitis
+                  maxime, ipsum quae. Iusto, optio temporibus tempora vitae at
+                  harum eius similique totam officia quia qui aut dolor ullam ad
+                  fuga nulla praesentium ipsa! Et fugit odit, recusandae rerum
+                  corrupti explicabo mollitia consectetur blanditiis labore
+                  enim! Exercitationem natus magnam repellendus consequuntur
+                  fuga. Eum suscipit veniam omnis, a excepturi placeat minus
+                  quisquam quod ex est odio odit et
+                </h1>
+                <div
+                  style={{
+                    aspectRatio: 1,
+                    clipPath: "polygon(0 100%,100% 0,100% 100%)",
+                    transform: "translateX",
+                  }}
+                  className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-brown-500"
+                ></div>{" "}
+                <span className="absolute bottom-2 right-5 text-xs text-graysecondarytextcolor">
+                  15:30
+                </span>
               </div>
             </div>
           </section>
@@ -367,8 +288,18 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               </motion.span>
             </div>
             <div className="flex items-center p-2">
-              <Button className="xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor transition-all active:text-brown-200">
-                <GrAttachment className="text-xl cursor-pointer text-graysecondarytextcolor" />
+              <Button
+                className={`xs:p-2 p-1 rounded-full hover:bg-graylightsecondarytextcolor
+                ${
+                  isUploadOpt && "bg-graylightsecondarytextcolor "
+                } transition-all cursor-pointer active:text-brown-200`}
+                onClick={() => setIsUploadOpt((prev) => !prev)}
+              >
+                <GrAttachment
+                  className={`text-xl text-graysecondarytextcolor ${
+                    isUploadOpt && "!text-brown-300"
+                  }`}
+                />
               </Button>
             </div>
             <div
@@ -405,7 +336,34 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               />
             </motion.div>
           </div>
-          <div></div>
+          <div
+            className={`absolute w-[100vw] h-[100vh] bg-transparent bottom-0 right-0 z-50 transition-all ${
+              isUploadOpt ? "visible" : "invisible"
+            }`}
+            onClick={() => setIsUploadOpt(false)}
+            onMouseLeave={() => setIsUploadOpt(false)}
+          >
+            <motion.div
+              className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg absolute cursor-pointer origin-bottom-right xs:bottom-[4rem] 2xs:bottom-[3.2rem] right-0 `}
+              onClick={(e) => {
+                setIsUploadOpt(false);
+                e.stopPropagation();
+              }}
+              animate={{
+                opacity: isUploadOpt ? 1 : 0,
+                scale: isUploadOpt ? 1 : 0.3,
+              }}
+            >
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                <HiPhoto  className="size-[1.3rem] -mt-[2px]" />
+                <span className="font-medium text-sm">Photo or video</span>
+              </div>
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                <CgFileDocument className="size-[1.3rem] -mt-[2px]" />
+                <span className="font-medium text-sm">Document</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
