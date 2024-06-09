@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import {
   IoCallOutline,
+  IoDocumentOutline,
   IoEllipsisVertical,
   IoSearch,
   IoSend,
 } from "react-icons/io5";
-import Demo from "../assets/Demo.jpg";
+import Demo from "../assets/Demo/Demo.jpg";
 import { FaArrowLeft, FaRegUser, FaUserGroup } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
@@ -159,8 +160,8 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
         } lg:visible lg:w-full lg:flex`}
       >
-        <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-2">
-          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-1 first:mt-1">
+        <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-3">
+          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-1">
             <div className="sticky top-1 w-full flex justify-center z-10">
               <div className="bg-orange-900/50 py-[6px] px-3 rounded-full text-sm">
                 April 26
@@ -198,13 +199,13 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   }}
                   className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
                 ></div>{" "}
-                <span className="absolute bottom-2 right-5 text-xs text-graysecondarytextcolor">
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
                   15:30
                 </span>
               </div>
             </div>
             <div className="flex justify-start">
-              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-l-sm rounded-bl-none relative ">
+              <div className="max-w-[30rem] bg-graysurface break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-l-sm rounded-bl-none relative ">
                 <h1>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
                   perspiciatis voluptatum, exercitationem commodi doloremque
@@ -233,9 +234,75 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                     clipPath: "polygon(0 100%,100% 0,100% 100%)",
                     transform: "translateX",
                   }}
-                  className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-brown-500"
+                  className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-graysurface"
                 ></div>{" "}
-                <span className="absolute bottom-2 right-5 text-xs text-graysecondarytextcolor">
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
+                  15:30
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-start">
+              <div className="max-w-[30rem] bg-graysurface break-words whitespace-pre-wrap p-2 rounded-xl rounded-l-sm rounded-bl-none relative cursor-pointer">
+                <img
+                  src="src\assets\Demo\Demo.jpg"
+                  alt=""
+                  className="w-full h-full rounded-lg"
+                />
+                <div
+                  style={{
+                    aspectRatio: 1,
+                    clipPath: "polygon(0 100%,100% 0,100% 100%)",
+                    transform: "translateX",
+                  }}
+                  className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-graysurface"
+                ></div>{" "}
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
+                  15:30
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer">
+                <div className="flex gap-1 items-center max-w-full">
+                  <div className="relative">
+                    <IoDocumentOutline className="xs:size-[4rem] xs:-ml-2 size-[3rem] -ml-1" />
+                    <span className="absolute top-1/2 xs:left-[43%] -translate-x-1/2 xs:text-[0.7rem] text-[0.5rem] left-[46%]">.pdf</span>
+                  </div>
+                  <div className="flex-1 max-w-full flex flex-col xs:gap-1">
+                    <div className="inline-flex">
+                      <h5 className="text-ellipsis whitespace-nowrap overflow-hidden max-w-[90%]">
+                        Practicalfdgdfdggd
+                      </h5>
+                      <span>.pdf</span>
+                    </div>
+                    <span className="text-sm opacity-70">344 MB</span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    aspectRatio: 1,
+                    clipPath: "polygon(0 0,100% 100%,0 100%)",
+                    transform: "translateX",
+                  }}
+                  className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                ></div>{" "}
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
+                  15:30
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer">
+                <video src="src/assets/Demo/DemoVideo.mp4" className="w-full rounded-lg"></video>
+                <div
+                  style={{
+                    aspectRatio: 1,
+                    clipPath: "polygon(0 0,100% 100%,0 100%)",
+                    transform: "translateX",
+                  }}
+                  className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                ></div>{" "}
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
                   15:30
                 </span>
               </div>
@@ -344,7 +411,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             onMouseLeave={() => setIsUploadOpt(false)}
           >
             <motion.div
-              className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg absolute cursor-pointer origin-bottom-right xs:bottom-[4rem] 2xs:bottom-[3.2rem] right-0 `}
+              className={`bg-graymain w-fit h-fit p-3 flex flex-col gap-2 rounded shadow-lg absolute cursor-pointer origin-bottom-right xs:!bottom-[3.5rem] 2xs:bottom-[3.2rem] right-0 `}
               onClick={(e) => {
                 setIsUploadOpt(false);
                 e.stopPropagation();
@@ -355,7 +422,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
               }}
             >
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
-                <HiPhoto  className="size-[1.3rem] -mt-[2px]" />
+                <HiPhoto className="size-[1.3rem] -mt-[2px]" />
                 <span className="font-medium text-sm">Photo or video</span>
               </div>
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">

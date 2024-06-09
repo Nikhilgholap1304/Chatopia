@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Demo from "../assets/Demo.jpg";
+import Demo from "../assets//Demo/Demo.jpg";
 import "./style/style.scss";
 import { Avatar, Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
