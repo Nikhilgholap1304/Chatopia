@@ -13,13 +13,14 @@ import { FaArrowLeft, FaRegUser, FaUserGroup } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import { BsCameraVideo, BsEmojiSmile } from "react-icons/bs";
-import { FiLock } from "react-icons/fi";
+import { FiDownload, FiLock } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
 import "../components/style/style.scss";
 import { HiOutlinePhoto, HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
+import { GoDownload } from "react-icons/go";
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
@@ -261,12 +262,17 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="flex justify-end">
-              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer">
+            <div className="flex justify-end ">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer group">
                 <div className="flex gap-1 items-center max-w-full">
                   <div className="relative">
                     <IoDocumentOutline className="xs:size-[4rem] xs:-ml-2 size-[3rem] -ml-1" />
-                    <span className="absolute top-1/2 xs:left-[43%] -translate-x-1/2 xs:text-[0.7rem] text-[0.5rem] left-[46%]">.pdf</span>
+                    <span className="absolute top-1/2 xs:left-[43%] -translate-x-1/2  left-[46%]">
+                      <FiDownload className={`xs:size-5 size-4 scale-0 group-hover:scale-100 transition-all -mt-[2px]`} />
+                      <span className={`xs:text-[0.7rem] text-[0.5rem] flex scale-100 group-hover:scale-0 absolute top-0 left-0 transition-all`}>
+                        .pdf
+                        </span>
+                    </span>
                   </div>
                   <div className="flex-1 max-w-full flex flex-col xs:gap-1">
                     <div className="inline-flex">
@@ -293,8 +299,17 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             </div>
             <div className="flex justify-end">
               <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer">
-                <video src="src/assets/Demo/DemoVideo.mp4" className="w-full rounded-lg" autoPlay controls></video>
-                <h5 className="max-w-full whitespace-pre-wrap">This is Demo Video Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque fuga tenetur atque doloribus aut modi rem molestias perspiciatis consequuntur numquam?</h5>
+                <video
+                  src="src/assets/Demo/DemoVideo.mp4"
+                  className="w-full rounded-lg"
+                  autoPlay
+                  controls
+                ></video>
+                <h5 className="max-w-full whitespace-pre-wrap">
+                  This is Demo Video Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Eaque fuga tenetur atque doloribus aut modi
+                  rem molestias perspiciatis consequuntur numquam?
+                </h5>
                 <div
                   style={{
                     aspectRatio: 1,
