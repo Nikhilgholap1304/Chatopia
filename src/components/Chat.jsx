@@ -293,7 +293,8 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             </div>
             <div className="flex justify-end">
               <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap p-2 rounded-xl rounded-r-sm rounded-br-none relative cursor-pointer">
-                <video src="src/assets/Demo/DemoVideo.mp4" className="w-full rounded-lg"></video>
+                <video src="src/assets/Demo/DemoVideo.mp4" className="w-full rounded-lg" autoPlay controls></video>
+                <h5 className="max-w-full whitespace-pre-wrap">This is Demo Video Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque fuga tenetur atque doloribus aut modi rem molestias perspiciatis consequuntur numquam?</h5>
                 <div
                   style={{
                     aspectRatio: 1,
