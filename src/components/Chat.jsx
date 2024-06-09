@@ -39,15 +39,17 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   };
   return (
     <div
-      className={`w-full h-full flex-2 2xs:translate-x-[100vw] 2xs:flex-[0] lg:!translate-x-0 lg:!flex-1 lg:!w-full flex flex-col relative transition-all ${
-        !sideBarOpen && "2xs:!translate-x-0 2xs:flex-[1]"
+      className={`w-full h-full flex-2 lg:!translate-x-0 lg:!flex-1 lg:!w-full flex-1 flex flex-col relative justify-center 2xs:transition-none xs:transition-all ${
+        !sideBarOpen
+          ? "!translate-x-0 flex-[1]"
+          : "translate-x-[100vw] flex-[0]"
       }`}
       style={{
         backgroundImage:
           "linear-gradient(to right bottom, #322200, #372701, #3d2b01, #423001, #473501, #4c3901, #523e01, #574201, #5e4701, #654b01, #6c5000, #735500",
       }}
     >
-      <div className="bg-[url('./assets\bgImages\designBg1.png')] absolute inset-0 -z-[1]" />
+      <div className="bg-[url('./assets\bgImages\designBg1.png')] absolute inset-0" />
       <div
         className={`relative bg-graysurface 2xs:px-2 sm:px-4 md:px-5 py-2 shadow ${
           !sideBarOpen
@@ -149,10 +151,180 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           </div>
         </div>
       </div>
-      <div className="flex-auto relative z-[1] w-[100%]"></div>
+      <div
+        className={`flex-1 relative z-[1] w-full h-full flex flex-col items-center overflow-hidden ${
+          !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
+        } lg:visible lg:w-full lg:flex`}
+      >
+        <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-3">
+          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
+            <div className="flex justify-end">
+              <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-2 rounded-xl rounded-r-sm rounded-br-sm relative">
+                <h1>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                  perspiciatis voluptatum, exercitationem commodi doloremque
+                  repudiandae, repellat libero eos aliquam asperiores explicabo
+                  quidem cumque delectus ducimus veniam cupiditate esse. Eos
+                  quae dignissimos asperiores minus rerum placeat nihil expedita
+                  delectus tempora architecto non nostrum, aliquam a numquam
+                  repellendus minima impedit nulla? Labore itaque ipsum
+                  cupiditate debitis vel totam sequi dignissimos quo vitae
+                  numquam odio incidunt, eaque iure atque. Maiores placeat
+                  laboriosam in eum! Reiciendis provident laudantium voluptatum,
+                  sint obcaecati quibusdam cupiditate possimus modi. Iusto eaque
+                  fugiat ipsam beatae mollitia officia, laboriosam quod minus
+                  voluptate ut id harum eligendi illo facere voluptas debitis
+                  maxime, ipsum quae. Iusto, optio temporibus tempora vitae at
+                  harum eius similique totam officia quia qui aut dolor ullam ad
+                  fuga nulla praesentium ipsa! Et fugit odit, recusandae rerum
+                  corrupti explicabo mollitia consectetur blanditiis labore
+                  enim! Exercitationem natus magnam repellendus consequuntur
+                  fuga. Eum suscipit veniam omnis, a excepturi placeat minus
+                  quisquam quod ex est odio odit et
+                </h1>
+                <div
+                  style={{
+                    aspectRatio: 1,
+                    clipPath: "polygon(0 0,100% 100%,0 100%)",
+                    transform: "translateX",
+                  }}
+                  className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                ></div>{" "}
+                <span className="absolute bottom-2 right-5 text-xs text-graysecondarytextcolor">
+                  15:30
+                </span>
+              </div>
+            </div>
+            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
+              <div className="">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                perspiciatis voluptatum, exercitationem commodi doloremque
+                repudiandae, repellat libero eos aliquam asperiores explicabo
+                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
+                dignissimos asperiores minus rerum placeat nihil expedita
+                delectus tempora architecto non nostrum, aliquam a numquam
+                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
+                debitis vel totam sequi dignissimos quo vitae numquam odio
+                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
+                Reiciendis provident laudantium voluptatum, sint obcaecati
+                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
+                beatae mollitia officia, laboriosam quod minus voluptate ut id
+                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
+                Iusto, optio temporibus tempora vitae at harum eius similique
+                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
+                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
+                mollitia consectetur blanditiis labore enim! Exercitationem
+                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
+                omnis, a excepturi placeat minus quisquam quod ex est odio odit
+                et
+              </div>
+            </div>
+          </section>
+          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
+            <div className="flex justify-end">
+              <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                perspiciatis voluptatum, exercitationem commodi doloremque
+                repudiandae, repellat libero eos aliquam asperiores explicabo
+                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
+                dignissimos asperiores minus rerum placeat nihil expedita
+                delectus tempora architecto non nostrum, aliquam a numquam
+                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
+                debitis vel totam sequi dignissimos quo vitae numquam odio
+                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
+                Reiciendis provident laudantium voluptatum, sint obcaecati
+                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
+                beatae mollitia officia, laboriosam quod minus voluptate ut id
+                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
+                Iusto, optio temporibus tempora vitae at harum eius similique
+                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
+                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
+                mollitia consectetur blanditiis labore enim! Exercitationem
+                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
+                omnis, a excepturi placeat minus quisquam quod ex est odio odit
+                et
+              </div>
+            </div>
+            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
+              <div className="">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                perspiciatis voluptatum, exercitationem commodi doloremque
+                repudiandae, repellat libero eos aliquam asperiores explicabo
+                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
+                dignissimos asperiores minus rerum placeat nihil expedita
+                delectus tempora architecto non nostrum, aliquam a numquam
+                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
+                debitis vel totam sequi dignissimos quo vitae numquam odio
+                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
+                Reiciendis provident laudantium voluptatum, sint obcaecati
+                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
+                beatae mollitia officia, laboriosam quod minus voluptate ut id
+                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
+                Iusto, optio temporibus tempora vitae at harum eius similique
+                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
+                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
+                mollitia consectetur blanditiis labore enim! Exercitationem
+                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
+                omnis, a excepturi placeat minus quisquam quod ex est odio odit
+                et
+              </div>
+            </div>
+          </section>
+          <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] gap-1">
+            <div className="flex justify-end">
+              <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                perspiciatis voluptatum, exercitationem commodi doloremque
+                repudiandae, repellat libero eos aliquam asperiores explicabo
+                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
+                dignissimos asperiores minus rerum placeat nihil expedita
+                delectus tempora architecto non nostrum, aliquam a numquam
+                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
+                debitis vel totam sequi dignissimos quo vitae numquam odio
+                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
+                Reiciendis provident laudantium voluptatum, sint obcaecati
+                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
+                beatae mollitia officia, laboriosam quod minus voluptate ut id
+                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
+                Iusto, optio temporibus tempora vitae at harum eius similique
+                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
+                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
+                mollitia consectetur blanditiis labore enim! Exercitationem
+                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
+                omnis, a excepturi placeat minus quisquam quod ex est odio odit
+                et
+              </div>
+            </div>
+            <div className="max-w-[30rem] bg-brown-400 break-words whitespace-pre-wrap py-1 px-2 rounded-xl rounded-r-sm rounded-br-sm flex items-start">
+              <div className="">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad
+                perspiciatis voluptatum, exercitationem commodi doloremque
+                repudiandae, repellat libero eos aliquam asperiores explicabo
+                quidem cumque delectus ducimus veniam cupiditate esse. Eos quae
+                dignissimos asperiores minus rerum placeat nihil expedita
+                delectus tempora architecto non nostrum, aliquam a numquam
+                repellendus minima impedit nulla? Labore itaque ipsum cupiditate
+                debitis vel totam sequi dignissimos quo vitae numquam odio
+                incidunt, eaque iure atque. Maiores placeat laboriosam in eum!
+                Reiciendis provident laudantium voluptatum, sint obcaecati
+                quibusdam cupiditate possimus modi. Iusto eaque fugiat ipsam
+                beatae mollitia officia, laboriosam quod minus voluptate ut id
+                harum eligendi illo facere voluptas debitis maxime, ipsum quae.
+                Iusto, optio temporibus tempora vitae at harum eius similique
+                totam officia quia qui aut dolor ullam ad fuga nulla praesentium
+                ipsa! Et fugit odit, recusandae rerum corrupti explicabo
+                mollitia consectetur blanditiis labore enim! Exercitationem
+                natus magnam repellendus consequuntur fuga. Eum suscipit veniam
+                omnis, a excepturi placeat minus quisquam quod ex est odio odit
+                et
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
       <div
         className={`relative ${
-          !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
+          !sideBarOpen ? "visible w-full !flex" : "invisible w-0 hidden"
         } lg:visible lg:w-full lg:flex transition-all justify-center items-center gap-2 py-[0.5rem]`}
       >
         <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center relative">
