@@ -9,7 +9,7 @@ import {
   IoSend,
 } from "react-icons/io5";
 import Demo from "../assets/Demo/Demo.jpg";
-import { FaArrowLeft, FaRegUser, FaUserGroup } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 import { BsCameraVideo, BsEmojiSmile } from "react-icons/bs";
@@ -18,15 +18,16 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
 import "../components/style/style.scss";
-import { HiOutlinePhoto, HiPhoto } from "react-icons/hi2";
+import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
-import { GoDownload } from "react-icons/go";
+import FsLightbox from "fslightbox-react";
 
 const Chat = ({ setSideBarOpen, sideBarOpen }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isMsg, setIsMsg] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
   const [isUploadOpt, setIsUploadOpt] = useState(false);
+  const [assetPreviewTog, setAssetPreviewTog] = useState(false);
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
@@ -268,10 +269,14 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   <div className="relative">
                     <IoDocumentOutline className="xs:size-[4rem] xs:-ml-2 size-[3rem] -ml-1" />
                     <span className="absolute top-1/2 xs:left-[43%] -translate-x-1/2  left-[46%]">
-                      <FiDownload className={`xs:size-5 size-4 scale-0 group-hover:scale-100 transition-all -mt-[2px]`} />
-                      <span className={`xs:text-[0.7rem] text-[0.5rem] flex scale-100 group-hover:scale-0 absolute top-0 left-0 transition-all`}>
+                      <FiDownload
+                        className={`xs:size-5 size-4 scale-0 group-hover:scale-100 transition-all -mt-[2px]`}
+                      />
+                      <span
+                        className={`xs:text-[0.7rem] text-[0.5rem] flex scale-100 group-hover:scale-0 absolute top-0 left-0 transition-all`}
+                      >
                         .pdf
-                        </span>
+                      </span>
                     </span>
                   </div>
                   <div className="flex-1 max-w-full flex flex-col xs:gap-1">
@@ -304,6 +309,7 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   className="w-full rounded-lg"
                   autoPlay
                   controls
+                  onClick={()=>setAssetPreviewTog(true)}
                 ></video>
                 <h5 className="max-w-full whitespace-pre-wrap">
                   This is Demo Video Lorem ipsum dolor sit amet consectetur
@@ -452,6 +458,10 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
         </Button>
       </div>
+      <FsLightbox
+        toggler={assetPreviewTog}
+        sources={[Demo]}
+      />
     </div>
   );
 };
