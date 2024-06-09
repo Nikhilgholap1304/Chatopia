@@ -22,12 +22,16 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 
-const Chat = ({ setSideBarOpen, sideBarOpen }) => {
+const Chat = ({
+  setSideBarOpen,
+  sideBarOpen,
+  setAssetPreviewTog,
+  handleAssetSource,
+}) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isMsg, setIsMsg] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
   const [isUploadOpt, setIsUploadOpt] = useState(false);
-  const [assetPreviewTog, setAssetPreviewTog] = useState(false);
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
@@ -249,6 +253,10 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   src="src\assets\Demo\Demo.jpg"
                   alt=""
                   className="w-full h-full rounded-lg"
+                  onClick={() => {
+                    setAssetPreviewTog((prev) => !prev);
+                    handleAssetSource("src/assets/Demo/Demo.jpg");
+                  }}
                 />
                 <div
                   style={{
@@ -309,7 +317,11 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
                   className="w-full rounded-lg"
                   autoPlay
                   controls
-                  onClick={()=>setAssetPreviewTog(true)}
+                  playsInline
+                  onClick={() => {
+                    setAssetPreviewTog((prev) => !prev);
+                    handleAssetSource("src/assets/Demo/DemoVideo.mp4");
+                  }}
                 ></video>
                 <h5 className="max-w-full whitespace-pre-wrap">
                   This is Demo Video Lorem ipsum dolor sit amet consectetur
@@ -445,11 +457,13 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
             >
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
                 <HiPhoto className="size-[1.3rem] -mt-[2px]" />
-                <span className="font-medium text-sm">Photo or video</span>
+                <label className="font-medium text-sm" htmlFor="fileInput">Photo or video</label>
+                <input type="file" name="fileInput" id="fileInput" hidden/>
               </div>
               <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
                 <CgFileDocument className="size-[1.3rem] -mt-[2px]" />
-                <span className="font-medium text-sm">Document</span>
+                <label className="font-medium text-sm" htmlFor="docInput">Document</label>
+                <input type="file" name="docInput" id="docInput" hidden/>
               </div>
             </motion.div>
           </div>
@@ -458,10 +472,6 @@ const Chat = ({ setSideBarOpen, sideBarOpen }) => {
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
         </Button>
       </div>
-      <FsLightbox
-        toggler={assetPreviewTog}
-        sources={[Demo]}
-      />
     </div>
   );
 };

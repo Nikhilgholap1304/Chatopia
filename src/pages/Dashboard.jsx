@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import { useMediaQuery } from "react-responsive";
+import LightBox from "../components/LightBox";
 
 const Dashboard = () => {
   const Navigate = useNavigate();
@@ -19,7 +20,14 @@ const Dashboard = () => {
     if (!Max1080) {
       setSideBarOpen(true);
     }
-  },[sideBarOpen, setSideBarOpen]);
+  }, [sideBarOpen, setSideBarOpen]);
+
+  const [assetPreviewTog, setAssetPreviewTog] = useState(false);
+  const [assetSources, setAssetSources] = useState([]);
+
+  const handleAssetSource = (src) => {
+    setAssetSources([src]);
+  };
 
   const handleLogout = async () => {
     try {
@@ -35,11 +43,17 @@ const Dashboard = () => {
   return (
     <div className="flex w-screen h-screen overflow-hidden">
       <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} />
-      <Chat setSideBarOpen={setSideBarOpen} sideBarOpen={sideBarOpen} />
+      <Chat
+        setSideBarOpen={setSideBarOpen}
+        sideBarOpen={sideBarOpen}
+        setAssetPreviewTog={setAssetPreviewTog}
+        handleAssetSource={handleAssetSource}
+      />
       {/* <div>
         <h1>{currentUid}</h1>
         <button onClick={handleLogout}>logout</button>
       </div> */}
+      <LightBox assetPreviewTog={assetPreviewTog} assetSources={assetSources} setAssetSources={setAssetSources}/>
     </div>
   );
 };
