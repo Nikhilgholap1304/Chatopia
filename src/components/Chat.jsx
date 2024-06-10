@@ -21,6 +21,7 @@ import "../components/style/style.scss";
 import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
+import PaperPlane from "../assets/bgImages/PaperPlane.png";
 
 const Chat = ({
   setSideBarOpen,
@@ -61,6 +62,29 @@ const Chat = ({
     >
       <div className="bg-[url('./assets\bgImages\designBg1.png')] absolute inset-0" />
       <div
+        className={`m-auto relative z-10 ${
+          sideBarOpen ? "hidden" : "flex"
+        } lg:!flex flex-col items-center lg:w-[30rem] 2xs:hidden bg-brown-900/40 px-1 pb-10 rounded-xl justify-center shadow-lg`}
+      >
+        <motion.div
+          className="lg:w-[20rem] transition-all"
+          animate={{
+            y: [0, 10, 0],
+            rotateX: ["0deg", "20deg", "0deg", "10deg", "0deg"],
+            rotate: ["0deg", "20deg", "0deg", "10deg", "0deg"],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+          }}
+        >
+          <img src={PaperPlane} alt="" className="w-auto h-auto" />
+        </motion.div>
+        <span className="text-2xl font-bold opacity-50 text-center max-w-[24rem]">
+          <span className="text-3xl text-brown-200">Whoa!</span>, you haven't selected the chat yet ? {" "}
+        </span>
+      </div>
+      {/* <div
         className={`relative bg-graysurface 2xs:px-2 sm:px-4 md:px-5 py-2 shadow ${
           !sideBarOpen
             ? "w-full visible !flex"
@@ -471,7 +495,7 @@ const Chat = ({
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
