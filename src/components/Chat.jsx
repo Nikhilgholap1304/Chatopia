@@ -1,5 +1,5 @@
 import { Button, IconButton } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Avatar from "react-avatar";
 import {
   IoCallOutline,
@@ -33,6 +33,12 @@ const Chat = ({
   const [isMsg, setIsMsg] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
   const [isUploadOpt, setIsUploadOpt] = useState(false);
+  const endChatRef = useRef(null);
+
+  useEffect(()=>{
+   endChatRef.current?.scrollIntoView({behavior:'smooth'}) 
+  })
+
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
@@ -61,7 +67,7 @@ const Chat = ({
       }}
     >
       <div className="bg-[url('./assets\bgImages\designBg1.png')] absolute inset-0" />
-      <div
+      {/* <div
         className={`m-auto relative z-10 ${
           sideBarOpen ? "hidden" : "flex"
         } lg:!flex flex-col items-center lg:w-[30rem] 2xs:hidden bg-brown-900/40 px-1 pb-10 rounded-xl justify-center shadow-lg`}
@@ -83,8 +89,8 @@ const Chat = ({
         <span className="text-2xl font-bold opacity-50 text-center max-w-[24rem]">
           <span className="text-3xl text-brown-200">Whoa!</span>, you haven't selected the chat yet ? {" "}
         </span>
-      </div>
-      {/* <div
+      </div> */}
+      <div
         className={`relative bg-graysurface 2xs:px-2 sm:px-4 md:px-5 py-2 shadow ${
           !sideBarOpen
             ? "w-full visible !flex"
@@ -360,14 +366,16 @@ const Chat = ({
                   }}
                   className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
                 ></div>{" "}
-                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
+                <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded" >
                   15:30
                 </span>
               </div>
             </div>
           </section>
+          <div ref={endChatRef}></div>
         </div>
       </div>
+      {/*  */}
       <div
         className={`relative ${
           !sideBarOpen ? "visible w-full !flex" : "invisible w-0 hidden"
@@ -492,10 +500,11 @@ const Chat = ({
             </motion.div>
           </div>
         </div>
+        {/*  */}
         <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
           <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
         </Button>
-      </div> */}
+      </div>
     </div>
   );
 };
