@@ -5,11 +5,16 @@ import { Avatar, Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 import { useUserStore } from "../lib/userStore";
-import { doc, onSnapShot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { useAuth } from "../context/AuthContext";
+
 
 const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
+  const {currentUid} = useAuth();
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
+  console.log(currentUser)
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "users",currentUser.id), (doc) => {
       console.log("Current data: ", doc.data());

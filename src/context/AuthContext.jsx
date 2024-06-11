@@ -28,11 +28,11 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUid(user.uid);
         localStorage.setItem("loginTimestamp", new Date().getTime());
         localStorage.setItem("uid", user.uid);
+        fetchUserInfo(user.uid);
       }
     });
-    
+
     //this is for storing user details on userStore (zustand state manager)
-    fetchUserInfo(currentUid);
 
     checkSession();
 

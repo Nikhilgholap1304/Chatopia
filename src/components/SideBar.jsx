@@ -21,7 +21,7 @@ import ChatList from "./ChatList";
 import SearchList from "./SearchList";
 import { useMediaQuery } from "react-responsive";
 
-const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
+const SideBar = ({ sideBarOpen, setSideBarOpen, logout }) => {
   const [input, setInput] = useState("");
   const [menuActive, setMenuActive] = useState(false);
   const [bottomMenu, setBottomMenu] = useState(false);
@@ -110,7 +110,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
                 <span className="font-medium text-sm">Settings</span>
               </div>
               <hr className="text-grayinputborder border-grayinputborder" />
-              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+              <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]" onClick={logout}>
                 <FiLogOut className="size-[1.2rem]" />
                 <span className="font-medium text-sm">Logout</span>
               </div>

@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex w-screen h-screen overflow-hidden">
-      <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} />
+      <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} logout={handleLogout}/>
       <Chat
         setSideBarOpen={setSideBarOpen}
         sideBarOpen={sideBarOpen}
