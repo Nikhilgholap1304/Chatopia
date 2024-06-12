@@ -165,6 +165,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen, logout }) => {
             searchActive={searchActive}
             setSideBarOpen={setSideBarOpen}
             sideBarOpen={sideBarOpen}
+            setSearchActive = {setSearchActive}
           />
           <SearchList searchActive={searchActive} input={input} />
         </div>

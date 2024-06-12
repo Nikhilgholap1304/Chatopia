@@ -9,27 +9,42 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 
-const ChatList = ({ searchActive, setSideBarOpen, sideBarOpen }) => {
+const ChatList = ({
+  searchActive,
+  setSideBarOpen,
+  sideBarOpen,
+  setSearchActive,
+}) => {
   const { currentUid } = useAuth();
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
   console.log(currentUser);
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "users", currentUser.id), (res) => {
+    const unSub = onSnapshot(doc(db, "users", currentUser.id), async (res) => {
       // console.log("Current data: ", doc.data());
       const items = res.data().chats;
 
-      const promisses = items.map(async (item) => {
+      const promises = items.map(async (item) => {
         const userDocRef = doc(db, "users", item.receiverId);
         const userDocSnap = await getDoc(userDocRef);
         const user = userDocSnap.data();
+
+        return { ...item, user };
       });
+
+      const chatData = await Promise.all(promises);
+      setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
     });
     return () => {
       unSub();
     };
   }, [currentUser.id]);
-  // console.log(chats);
+
+  useEffect(() => {
+    if (chats.length===0) {
+      setSearchActive(true);
+    }
+  },[]);
 
   return (
     <>
