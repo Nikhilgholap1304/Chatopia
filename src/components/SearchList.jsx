@@ -4,7 +4,7 @@ import "./style/style.scss";
 import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
 
@@ -47,6 +47,23 @@ const SearchList = ({ searchActive, input }) => {
 
     handleUserSearch();
   }, [input]);
+
+  const handleAdd = async () => {
+    const chatRef = collection(db, 'chats')
+    const userChatsRef = collection(db, "userchats")
+    try {
+      const newChatRef = doc(chatRef); 
+      await setDoc(newChatRef, {
+        createdAt: serverTimestamp(),
+        messages:[],
+      })
+
+      console.log(newChatRef);
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <motion.section
