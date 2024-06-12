@@ -4,13 +4,15 @@ import "./style/style.scss";
 import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
-import { collection, getDocs, query, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
+import { useUserStore } from "../lib/userStore";
 
 const SearchList = ({ searchActive, input }) => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchSkeleLoading, setSearchSkeleLoading] = useState(false);
+  const {currentUser} = useUserStore();
 
   useEffect(() => {
     const handleUserSearch = async () => {
@@ -49,6 +51,7 @@ const SearchList = ({ searchActive, input }) => {
   }, [input]);
 
   const handleAdd = async () => {
+    console.log("init")
     const chatRef = collection(db, 'chats')
     const userChatsRef = collection(db, "userchats")
     try {
@@ -58,7 +61,25 @@ const SearchList = ({ searchActive, input }) => {
         messages:[],
       })
 
-      console.log(newChatRef);
+      await updateDoc(doc(userChatsRef, user.id),{
+        chats:arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: currentUser.id,
+          updatedAt: Date.now(),
+        })
+      })
+
+      await updateDoc(doc(userChatsRef, currentUser.id),{
+        chats:arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: currentUser.id,
+          updatedAt: Date.now(),
+        })
+      })
+
+      console.log(newChatRef.id);
       
     } catch (err) {
       console.log(err);
@@ -85,11 +106,12 @@ const SearchList = ({ searchActive, input }) => {
           animate={{
             y: 0,
           }}
-          onClick={handleAdd}
+          key={user.id}
         >
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
+            onClick={handleAdd}
           >
             <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
               {searchSkeleLoading ? (
