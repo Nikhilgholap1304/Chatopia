@@ -68,6 +68,7 @@ const SearchList = ({ searchActive, input }) => {
           animate={{
             y: 0,
           }}
+          onClick={handleAdd}
         >
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
