@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Demo from "../assets//Demo/Demo.jpg";
 import "./style/style.scss";
-import { Avatar, Button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 import { useUserStore } from "../lib/userStore";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
+import Avatar from "react-avatar";
 
 const ChatList = ({
   searchActive,
@@ -19,25 +20,27 @@ const ChatList = ({
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
-      // console.log("Current data: ", doc.data());
-      const items = res.data().chats;
-      if (!items) {
-        return;
+    const unSub = onSnapshot(
+      doc(db, "userchats", currentUser.id),
+      async (res) => {
+        // console.log("Current data: ", doc.data());
+        const items = res.data().chats;
+        if (!items) {
+          return;
+        }
+
+        const promises = items.map(async (item) => {
+          const userDocRef = doc(db, "users", item.receiverId);
+          const userDocSnap = await getDoc(userDocRef);
+          const user = userDocSnap.data();
+
+          return { ...item, user };
+        });
+
+        const chatData = await Promise.all(promises);
+        setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
       }
-
-      const promises = items.map(async (item) => {
-        const userDocRef = doc(db, "users", item.receiverId);
-        const userDocSnap = await getDoc(userDocRef);
-        const user = userDocSnap.data();
-
-        return { ...item, user };
-      });
-
-      const chatData = await Promise.all(promises);
-      setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
-      
-    });
+    );
     return () => {
       unSub();
     };
@@ -49,7 +52,7 @@ const ChatList = ({
     } else {
       setSearchActive(false);
     }
-    console.log(chats)
+    console.log(chats);
   }, [chats]);
 
   return (
@@ -77,10 +80,20 @@ const ChatList = ({
               >
                 <div className=" rounded-full size-[3rem] min-w-[3rem]">
                   {/* <div className="w-full h-full bg-gray-800 rounded-full animate-pulse"/> */}
-                  <Avatar
-                    src={Demo}
-                    className="w-full h-full border-brown-200 border-[1px]"
-                  />
+                  <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
+                    {/* {searchSkeleLoading ? (
+                      <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
+                    ) : ( */}
+                      <Avatar
+                        src={chat.user.avatar ? chat.user.avatar : ""}
+                        round={true}
+                        name={chat.user?.username?.charAt(0)}
+                        className="w-full h-full m-auto border-brown-200 border border-t"
+                        size="100%"
+                        color="rgb(141 110 99)"
+                      />
+                    {/* )} */}
+                  </div>
                 </div>
                 <div className="flex flex-col justify-center w-full gap-1">
                   <div className="flex justify-between">
