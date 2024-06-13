@@ -22,6 +22,8 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const Chat = ({
   setSideBarOpen,
@@ -29,6 +31,7 @@ const Chat = ({
   setAssetPreviewTog,
   handleAssetSource,
 }) => {
+  const [chat, setChat] = useState()
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isMsg, setIsMsg] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
@@ -36,8 +39,18 @@ const Chat = ({
   const endChatRef = useRef(null);
 
   useEffect(()=>{
-   endChatRef.current?.scrollIntoView({behavior:'smooth'}) 
+   endChatRef.current?.scrollIntoView({behavior:"smooth"}) 
   })
+
+  useEffect(()=>{
+    const unSub = onSnapshot(doc(db, "chats", "y9XG9YKT1WSof2ULJ9Um"), (res)=>{
+      setChat(res.data())
+    })
+    return () => {
+      unSub();
+    }
+  },[])
+  console.log(chat);
 
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
