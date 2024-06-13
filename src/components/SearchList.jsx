@@ -50,7 +50,7 @@ const SearchList = ({ searchActive, input }) => {
     handleUserSearch();
   }, [input]);
 
-  const handleAdd = async () => {
+  const handleAdd = async (userId) => {
     console.log("init")
     const chatRef = collection(db, 'chats')
     const userChatsRef = collection(db, "userchats")
@@ -61,7 +61,7 @@ const SearchList = ({ searchActive, input }) => {
         messages:[],
       })
 
-      await updateDoc(doc(userChatsRef, user.id),{
+      await updateDoc(doc(userChatsRef, userId),{
         chats:arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
@@ -74,7 +74,7 @@ const SearchList = ({ searchActive, input }) => {
         chats:arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: currentUser.id,
+          receiverId: userId,
           updatedAt: Date.now(),
         })
       })
@@ -111,7 +111,7 @@ const SearchList = ({ searchActive, input }) => {
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
-            onClick={handleAdd}
+            onClick={handleAdd(user.id)}
           >
             <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
               {searchSkeleLoading ? (
