@@ -36,6 +36,7 @@ const ChatList = ({
 
       const chatData = await Promise.all(promises);
       setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+      
     });
     return () => {
       unSub();
@@ -45,8 +46,11 @@ const ChatList = ({
   useEffect(() => {
     if (chats.length === 0) {
       setSearchActive(true);
+    } else {
+      setSearchActive(false);
     }
-  }, []);
+    console.log(chats)
+  }, [chats]);
 
   return (
     <>
@@ -81,7 +85,7 @@ const ChatList = ({
                 <div className="flex flex-col justify-center w-full gap-1">
                   <div className="flex justify-between">
                     <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">
-                      Arjun Pandey
+                      {chat.user.username}
                     </h5>
                     {/* <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
                     <p className="xs:text-xs text-[0.7rem] leading-3 text-graysecondarytextcolor">

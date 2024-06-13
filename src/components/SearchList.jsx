@@ -111,7 +111,7 @@ const SearchList = ({ searchActive, input }) => {
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
-            onClick={handleAdd(user.id)}
+            onClick={()=>handleAdd(user.id)}
           >
             <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
               {searchSkeleLoading ? (
