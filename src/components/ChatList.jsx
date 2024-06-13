@@ -9,6 +9,7 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "react-avatar";
+import { useChatStore } from "../lib/chatStore";
 
 const ChatList = ({
   searchActive,
@@ -19,6 +20,7 @@ const ChatList = ({
   const { currentUid } = useAuth();
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
+  const { changeChat } = useChatStore();
   useEffect(() => {
     const unSub = onSnapshot(
       doc(db, "userchats", currentUser.id),
@@ -55,6 +57,10 @@ const ChatList = ({
     console.log(chats);
   }, [chats]);
 
+  const handleSelect = async (chat) => {
+    changeChat(chat.chatId, chat.user)
+  }
+
   return (
     <>
       <motion.section
@@ -72,6 +78,7 @@ const ChatList = ({
             <div
               className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative `}
               key={chat.chatId}
+              onClick={()=>{handleSelect(chat)}}
             >
               <Ripples
                 className="absolute w-full h-full flex p-2 gap-2 items-center"

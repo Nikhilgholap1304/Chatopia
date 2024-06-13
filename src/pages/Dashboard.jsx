@@ -7,6 +7,7 @@ import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import { useMediaQuery } from "react-responsive";
 import LightBox from "../components/LightBox";
+import { useChatStore } from "../lib/chatStore";
 
 const Dashboard = () => {
   const Navigate = useNavigate();
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
+  const {chatId} = useChatStore();
 
   useEffect(() => {
     if (!Max1080) {
@@ -42,18 +44,28 @@ const Dashboard = () => {
 
   return (
     <div className="flex w-screen h-screen overflow-hidden">
-      <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} logout={handleLogout}/>
-      <Chat
-        setSideBarOpen={setSideBarOpen}
+      <SideBar
         sideBarOpen={sideBarOpen}
-        setAssetPreviewTog={setAssetPreviewTog}
-        handleAssetSource={handleAssetSource}
+        setSideBarOpen={setSideBarOpen}
+        logout={handleLogout}
       />
+      {chatId && (
+        <Chat
+          setSideBarOpen={setSideBarOpen}
+          sideBarOpen={sideBarOpen}
+          setAssetPreviewTog={setAssetPreviewTog}
+          handleAssetSource={handleAssetSource}
+        />
+      )}
       {/* <div>
         <h1>{currentUid}</h1>
         <button onClick={handleLogout}>logout</button>
       </div> */}
-      <LightBox assetPreviewTog={assetPreviewTog} assetSources={assetSources} setAssetSources={setAssetSources}/>
+      <LightBox
+        assetPreviewTog={assetPreviewTog}
+        assetSources={assetSources}
+        setAssetSources={setAssetSources}
+      />
     </div>
   );
 };

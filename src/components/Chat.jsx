@@ -24,6 +24,8 @@ import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { useChatStore } from "../lib/chatStore";
+
 
 const Chat = ({
   setSideBarOpen,
@@ -37,19 +39,21 @@ const Chat = ({
   const [isPickerActivate, setIsPickerActivate] = useState(false);
   const [isUploadOpt, setIsUploadOpt] = useState(false);
   const endChatRef = useRef(null);
+  const { chatId } = useChatStore();
 
   useEffect(()=>{
    endChatRef.current?.scrollIntoView({behavior:"smooth"}) 
   })
 
   useEffect(()=>{
-    const unSub = onSnapshot(doc(db, "chats", "y9XG9YKT1WSof2ULJ9Um"), (res)=>{
+    const unSub = onSnapshot(doc(db, "chats", chatId), (res)=>{
       setChat(res.data())
     })
     return () => {
       unSub();
     }
-  },[])
+  },[chatId])
+  
   console.log(chat);
 
   const Max1080 = useMediaQuery({
