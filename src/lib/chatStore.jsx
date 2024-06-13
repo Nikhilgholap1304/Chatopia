@@ -22,13 +22,19 @@ export const useChatStore = create((set) => ({
       });
     }
     // check if the receiver is blocked
-
-    if (currentUser.blocked.includes(user.id)) {
+    else if (currentUser.blocked.includes(user.id)) {
       return set({
         chatId,
         user: null,
         isCurrentUserBlocked: false,
         isReceiverBlocked: true,
+      });
+    } else {
+      set({
+        chatId,
+        user,
+        isCurrentUserBlocked: false,
+        isReceiverBlocked: false,
       });
     }
   },
