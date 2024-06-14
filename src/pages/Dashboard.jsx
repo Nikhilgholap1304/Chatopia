@@ -16,7 +16,7 @@ const Dashboard = () => {
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
-  const {chatId} = useChatStore();
+  const {chatId, changeChat} = useChatStore();
 
   useEffect(() => {
     if (!Max1080) {
@@ -34,8 +34,11 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      changeChat(null, null);
       localStorage.removeItem("uid");
       localStorage.removeItem("loginTimestamp");
+      localStorage.removeItem('chatId');
+      localStorage.removeItem('user');
       Navigate("/login");
     } catch (err) {
       console.error("Error logging out:", err);
@@ -49,14 +52,14 @@ const Dashboard = () => {
         setSideBarOpen={setSideBarOpen}
         logout={handleLogout}
       />
-      {chatId && (
+      {/* {chatId ? ( */}
         <Chat
           setSideBarOpen={setSideBarOpen}
           sideBarOpen={sideBarOpen}
           setAssetPreviewTog={setAssetPreviewTog}
           handleAssetSource={handleAssetSource}
         />
-      )}
+      {/* ):''} */}
       {/* <div>
         <h1>{currentUid}</h1>
         <button onClick={handleLogout}>logout</button>

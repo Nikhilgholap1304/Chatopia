@@ -58,7 +58,8 @@ const ChatList = ({
   }, [chats]);
 
   const handleSelect = async (chat) => {
-    changeChat(chat.chatId, chat.user)
+    await changeChat(chat.chatId, chat.user)
+    setSideBarOpen(false)
   }
 
   return (
@@ -78,12 +79,11 @@ const ChatList = ({
             <div
               className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative `}
               key={chat.chatId}
-              onClick={()=>{handleSelect(chat)}}
             >
               <Ripples
                 className="absolute w-full h-full flex p-2 gap-2 items-center"
                 during={1200}
-                onClick={() => setSideBarOpen(false)}
+                onClick={()=>handleSelect(chat)}
               >
                 <div className=" rounded-full size-[3rem] min-w-[3rem]">
                   {/* <div className="w-full h-full bg-gray-800 rounded-full animate-pulse"/> */}

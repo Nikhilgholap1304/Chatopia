@@ -4,16 +4,26 @@ import { db } from "./firebase";
 import { useUserStore } from "./userStore";
 
 export const useChatStore = create((set) => ({
-  chatId: null,
-  user: null,
+  chatId: localStorage.getItem('chatId') || null,
+  user: localStorage.getItem('user') || null,
   isCurrentUserBlocked: false,
   isReceiverBlocked: false,
   currentUser: null,
+
   changeChat: (chatId, user) => {
     const currentUser = useUserStore.getState().currentUser;
 
+    if(!chatId && !user){
+      return set({
+        chatId : null,
+        user : null
+      })
+    }
+
     // check if the current user is blocked
     if (user.blocked.includes(currentUser.id)) {
+      localStorage.setItem('chatId',chatId);
+      localStorage.setItem('user',null)
       return set({
         chatId,
         user: null,
@@ -23,6 +33,8 @@ export const useChatStore = create((set) => ({
     }
     // check if the receiver is blocked
     else if (currentUser.blocked.includes(user.id)) {
+      localStorage.setItem('chatId',chatId);
+      localStorage.removeItem('user')
       return set({
         chatId,
         user: null,
@@ -30,7 +42,9 @@ export const useChatStore = create((set) => ({
         isReceiverBlocked: true,
       });
     } else {
-      set({
+      localStorage.setItem('chatId',chatId);
+      localStorage.setItem('user',user);
+      return set({
         chatId,
         user,
         isCurrentUserBlocked: false,
