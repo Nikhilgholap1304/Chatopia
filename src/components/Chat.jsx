@@ -225,7 +225,27 @@ const Chat = ({
                     April 26
                   </div>
                 </div>
-                <div className="flex justify-end">
+                {chat?.messages?.map((message) => {
+                  <div className="flex justify-end" key={message?.createAt}>
+                    <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
+                      <h1>
+                        {message.text}
+                      </h1>
+                      <div
+                        style={{
+                          aspectRatio: 1,
+                          clipPath: "polygon(0 0,100% 100%,0 100%)",
+                          transform: "translateX",
+                        }}
+                        className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                      ></div>{" "}
+                      <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
+                        15:30
+                      </span>
+                    </div>
+                  </div>;
+                })}
+                {/* <div className="flex justify-end">
                   <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
                     <h1>
                       Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -394,7 +414,7 @@ const Chat = ({
                       15:30
                     </span>
                   </div>
-                </div>
+                </div> */}
               </section>
               <div ref={endChatRef}></div>
             </div>
