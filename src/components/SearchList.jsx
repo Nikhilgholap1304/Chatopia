@@ -9,7 +9,7 @@ import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
 import { useUserStore } from "../lib/userStore";
 
-const SearchList = ({ searchActive, input }) => {
+const SearchList = ({ searchActive, input, setInput }) => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchSkeleLoading, setSearchSkeleLoading] = useState(false);
   const {currentUser} = useUserStore();
@@ -51,7 +51,6 @@ const SearchList = ({ searchActive, input }) => {
   }, [input]);
 
   const handleAdd = async (userId) => {
-    console.log("init")
     const chatRef = collection(db, 'chats')
     const userChatsRef = collection(db, "userchats")
     try {
@@ -78,6 +77,8 @@ const SearchList = ({ searchActive, input }) => {
           updatedAt: Date.now(),
         })
       })
+
+      setInput("");
 
       console.log(newChatRef.id);
       

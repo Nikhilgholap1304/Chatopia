@@ -22,9 +22,10 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
-import { doc, onSnapshot } from "firebase/firestore";
+import { arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useChatStore } from "../lib/chatStore";
+import { useUserStore } from "../lib/userStore";
 
 const Chat = ({
   setSideBarOpen,
@@ -34,10 +35,11 @@ const Chat = ({
 }) => {
   const [chat, setChat] = useState();
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
-  const [isMsg, setIsMsg] = useState("");
+  const [text, setText] = useState("");
   const [isPickerActivate, setIsPickerActivate] = useState(false);
   const [isUploadOpt, setIsUploadOpt] = useState(false);
   const endChatRef = useRef(null);
+  const { currentUser } = useUserStore();
   const { chatId } = useChatStore();
 
   useEffect(() => {
@@ -63,14 +65,29 @@ const Chat = ({
   const Max450 = useMediaQuery({
     query: "(max-width: 450px)",
   });
-  const handleIsMsgChange = (e) => {
-    setIsMsg(e.target.value);
+  const handleMsgChange = (e) => {
+    setText(e.target.value);
   };
   const handleActivatePicker = () => {
     setIsPickerActivate(!isPickerActivate);
   };
   const handleEmoji = (e) => {
-    setIsMsg((prev) => prev + e.emoji);
+    setText((prev) => prev + e.emoji);
+  };
+  const handleSend = async () => {
+    if (text === "") {
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "chats", chatId),{
+        messages:arrayUnion({
+          senderId: currentUser.id,
+          text,
+        })
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div
@@ -228,9 +245,7 @@ const Chat = ({
                 {chat?.messages?.map((message) => {
                   <div className="flex justify-end" key={message?.createAt}>
                     <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
-                      <h1>
-                        {message.text}
-                      </h1>
+                      <h1>{message.text}</h1>
                       <div
                         style={{
                           aspectRatio: 1,
@@ -446,16 +461,16 @@ const Chat = ({
                   <textarea
                     // type="text"
                     className=" bg-transparent text-sm caret-brown-200 border-none outline-none relative z-[1] w-full py-2 flex items-center chattextarea"
-                    onChange={(e) => handleIsMsgChange(e)}
-                    value={isMsg}
+                    onChange={(e) => handleMsgChange(e)}
+                    value={text}
                     wrap="soft"
                     rows="1"
                   />
                   <motion.span
                     className="absolute left-0 origin-right text-graysecondarytextcolor xs:text-base text-sm"
                     animate={{
-                      x: !isMsg ? 0 : 15,
-                      opacity: !isMsg ? 1 : 0,
+                      x: !text ? 0 : 15,
+                      opacity: !text ? 1 : 0,
                     }}
                     transition={{
                       duration: 0.2,
@@ -551,7 +566,10 @@ const Chat = ({
               </div>
             </div>
             {/*  */}
-            <Button className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full">
+            <Button
+              className="xs:p-[1rem] p-[0.7rem] bg-brown-400 rounded-full"
+              onClick={handleSend}
+            >
               <IoSend className="xs:size-[1.4rem] size-[1.3rem] translate-x-[1px]" />
             </Button>
           </div>
