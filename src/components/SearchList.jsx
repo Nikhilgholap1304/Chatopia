@@ -4,7 +4,7 @@ import "./style/style.scss";
 import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
-import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
 import { useUserStore } from "../lib/userStore";
@@ -54,6 +54,18 @@ const SearchList = ({ searchActive, input, setInput }) => {
     const chatRef = collection(db, 'chats')
     const userChatsRef = collection(db, "userchats")
     try {
+      // check if chat already exists
+      const userChatsDoc = await getDoc(doc(userChatsRef, currentUser.id));
+      const userChatsData = userChatsDoc.data();
+      const chatExists = userChatsData.chats.some(chat=>chat.receiverId===userId);
+
+      if(chatExists){
+        console.log("chat already exists");
+        setInput("");
+        return;
+      }
+
+      // Create a new chat
       const newChatRef = doc(chatRef); 
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
