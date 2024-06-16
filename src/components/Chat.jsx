@@ -47,6 +47,7 @@ const Chat = ({
   const endChatRef = useRef(null);
   const { currentUser } = useUserStore();
   const { chatId, user } = useChatStore();
+  const [skeletonLoad, setSkeletonLoad] = useState(true);
 
   useEffect(() => {
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,10 +64,10 @@ const Chat = ({
       };
     }, 100);
   }, [chatId]);
-  
+
   // console.log(user)
-  console.log(localStorage.getItem('user'));
-  // console.log(chatId);
+  console.log(localStorage.getItem("user"));
+  console.log(chat?.messages[0].text);
 
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
@@ -125,6 +126,13 @@ const Chat = ({
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSkeletonLoad(false);
+    }, 1500);
+  }, []);
+
   return (
     <div
       className={`w-full h-full flex-2 lg:!translate-x-0 lg:!flex-1 lg:!w-full flex-1 flex flex-col relative justify-center 2xs:transition-none xs:transition-all ${
@@ -184,23 +192,35 @@ const Chat = ({
                   className={`text-graysecondarytextcolor transition-all ease-in-out duration-200 xs:!size-5 2xs:size-4`}
                 />
               </IconButton>
-              <div className="size-[3rem] xs:!size-[3rem] 2xs:size-[2.3rem]">
-                <Avatar
-                  src={user?.avatar}
-                  name="A"
-                  round
-                  size="100%"
-                  className="border-brown-200 border border-t"
-                  color="rgb(141 110 99)"
-                />
+              <div className="size-[3rem] xs:!size-[3rem] 2xs:size-[2.3rem] rounded-full">
+                {skeletonLoad ? (
+                  <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
+                ) : (
+                  <Avatar
+                    src={user?.avatar}
+                    name={user?.username?.charAt(0)}
+                    round={true}
+                    size="100%"
+                    className="w-full h-full m-auto border-brown-200 border border-t"
+                    color="rgb(141 110 99)"
+                  />
+                )}
               </div>
               <div className="flex gap-1 justify-center flex-col">
-                <h3 className="xs:!leading-5 2xs:leading-none xs:!text-base 2xs:text-sm">
-                  {user?.username}
-                </h3>
-                <p className="text-nowrap whitespace-nowrap overflow-hidden leading-none text-sm text-graysecondarytextcolor 2xs:text-xs xs:!text-sm">
-                  last seen May 8 at 10:17
-                </p>
+                {skeletonLoad ? (
+                  <div className="w-[8rem] h-4 bg-gray-800 animate-pulse rounded" />
+                ) : (
+                  <h3 className="xs:!leading-5 2xs:leading-none xs:!text-base 2xs:text-sm">
+                    {user?.username}
+                  </h3>
+                )}
+                {skeletonLoad ? (
+                  <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded" />
+                ) : (
+                  <p className="text-nowrap whitespace-nowrap overflow-hidden leading-none text-sm text-graysecondarytextcolor 2xs:text-xs xs:!text-sm">
+                    last seen May 8 at 10:17
+                  </p>
+                )}
               </div>
             </div>
             <div>
@@ -271,30 +291,32 @@ const Chat = ({
               !sideBarOpen ? "visible w-full flex" : "invisible w-0 hidden"
             } lg:visible lg:w-full lg:flex`}
           >
-            <div className="flex flex-col m-auto overflow-y-scroll items-center chatcontainer w-full gap-3">
+            <div className="flex flex-col overflow-y-scroll items-center chatcontainer w-full gap-3 justify-start">
               <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-1">
                 <div className="sticky top-1 w-full flex justify-center z-10">
                   <div className="bg-orange-900/50 py-[6px] px-3 rounded-full text-sm">
                     April 26
                   </div>
                 </div>
-                {chat?.messages?.map((message) => {
-                  <div className="flex justify-end" key={message?.createAt}>
-                    <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
-                      <h1>{message.text}</h1>
-                      <div
-                        style={{
-                          aspectRatio: 1,
-                          clipPath: "polygon(0 0,100% 100%,0 100%)",
-                          transform: "translateX",
-                        }}
-                        className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
-                      ></div>{" "}
-                      <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
-                        15:30
-                      </span>
+                {chat?.messages.map((message) => {
+                  return (
+                    <div className="flex justify-end" key={message?.createdAt}>
+                      <div className="max-w-[30rem] min-w-[4rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-[1.2rem] px-3 rounded-xl rounded-r-sm rounded-br-none relative">
+                        <h1>{message?.text}</h1>
+                        <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
+                          15:30
+                        </span>
+                        <div
+                          style={{
+                            aspectRatio: 1,
+                            clipPath: "polygon(0 0,100% 100%,0 100%)",
+                            transform: "translateX",
+                          }}
+                          className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                        ></div>
+                      </div>
                     </div>
-                  </div>;
+                  );
                 })}
                 {/* <div className="flex justify-end">
                   <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
@@ -333,7 +355,8 @@ const Chat = ({
                       15:30
                     </span>
                   </div>
-                </div>
+                </div> */}
+                {/* 
                 <div className="flex justify-start">
                   <div className="max-w-[30rem] bg-graysurface break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-l-sm rounded-bl-none relative ">
                     <h1>

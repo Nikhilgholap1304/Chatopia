@@ -21,7 +21,7 @@ const ChatList = ({
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
   const { changeChat, chatId } = useChatStore();
-  const [skeletonLoad, setSkeletonLoad] = useState(false);
+  const [skeletonLoad, setSkeletonLoad] = useState(true);
   useEffect(() => {
     const unSub = onSnapshot(
       doc(db, "userchats", currentUser.id),
@@ -59,15 +59,15 @@ const ChatList = ({
   }, [chats]);
 
   const handleSelect = async (chat) => {
-    await changeChat(chat.chatId, chat.user)
-    setSideBarOpen(false)
+    await changeChat(chat.chatId, chat.user);
+    setSideBarOpen(false);
     console.log(chat.chatId, chat.user);
-  }
-  useEffect(()=>{
-   setTimeout(() => {
-    setSkeletonLoad(false)
-   }, 200);
-  },[])
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      setSkeletonLoad(false);
+    }, 1500);
+  }, []);
 
   return (
     <>
@@ -84,52 +84,66 @@ const ChatList = ({
         {chats.length !== 0 &&
           chats.map((chat) => (
             <div
-              className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative transition-all ${chat.chatId === chatId && 'bg-graylightsecondarytextcolor'}`}
+              className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative transition-all ${
+                chat.chatId === chatId && "bg-graylightsecondarytextcolor"
+              }`}
               key={chat.chatId}
             >
               <Ripples
                 className="absolute w-full h-full flex p-2 gap-2 items-center"
                 during={1200}
-                onClick={()=>handleSelect(chat)}
+                onClick={() => handleSelect(chat)}
               >
-                  <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
-                    {skeletonLoad ? (
-                      <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
-                    ) : (
-                      <Avatar
-                        src={chat.user.avatar ? chat.user.avatar : ""}
-                        round={true}
-                        name={chat.user?.username?.charAt(0)}
-                        className="w-full h-full m-auto border-brown-200 border border-t"
-                        size="100%"
-                        color="rgb(141 110 99)"
-                      />
-                    )}
+                <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
+                  {skeletonLoad ? (
+                    <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
+                  ) : (
+                    <Avatar
+                      src={chat.user.avatar ? chat.user.avatar : ""}
+                      round={true}
+                      name={chat.user?.username?.charAt(0)}
+                      className="w-full h-full m-auto border-brown-200 border border-t"
+                      size="100%"
+                      color="rgb(141 110 99)"
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col justify-center w-full gap-1">
                   <div className="flex justify-between">
-                    <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">
-                      {chat.user.username}
-                    </h5>
-                    {/* <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
-                    <p className="xs:text-xs text-[0.7rem] leading-3 text-graysecondarytextcolor">
-                      15:35
-                    </p>
-                    {/* <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded"/> */}
+                    {skeletonLoad ? (
+                      <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded" />
+                    ) : (
+                      <h5 className="xs:leading-5 xs:text-base leading-4 text-sm">
+                        {chat.user.username}
+                      </h5>
+                    )}
+                    {skeletonLoad ? (
+                      <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded" />
+                    ) : (
+                      <p className="xs:text-xs text-[0.7rem] leading-3 text-graysecondarytextcolor">
+                        15:35
+                      </p>
+                    )}
                   </div>
                   <div className="flex justify-between items-center gap-2">
-                    <p
-                      className="text-nowrap flex-[10rem]
+                    {skeletonLoad ? (
+                      <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded" />
+                    ) : (
+                      <p
+                        className="text-nowrap flex-[10rem]
                   w-[10rem] whitespace-nowrap
               text-ellipsis overflow-hidden xs:text-base text-sm text-graysecondarytextcolor"
-                    >
-                      {chat.lastMessage}
-                    </p>
-                    {/* <div className="w-[15rem] h-4 bg-gray-800 animate-pulse rounded"/> */}
-                    <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs">
-                      2
-                    </span>
-                    {/* <div className="w-4 h-4 bg-gray-800 animate-pulse rounded"/> */}
+                      >
+                        {chat.lastMessage}
+                      </p>
+                    )}
+                    {skeletonLoad ? (
+                      <div className="w-4 h-4 bg-gray-800 animate-pulse rounded" />
+                    ) : (
+                      <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs">
+                        2
+                      </span>
+                    )}
                   </div>
                 </div>
               </Ripples>
