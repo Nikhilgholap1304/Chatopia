@@ -167,7 +167,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen, logout }) => {
             sideBarOpen={sideBarOpen}
             setSearchActive = {setSearchActive}
           />
-          <SearchList searchActive={searchActive} input={input} setInput={setInput} />
+          <SearchList searchActive={searchActive} input={input} setInput={setInput} setSearchActive = {setSearchActive}/>
         </div>
         <div className="absolute bottom-5 right-5">
           <motion.div

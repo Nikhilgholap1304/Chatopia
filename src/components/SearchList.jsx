@@ -9,7 +9,7 @@ import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
 import { useUserStore } from "../lib/userStore";
 
-const SearchList = ({ searchActive, input, setInput }) => {
+const SearchList = ({ searchActive, input, setInput, setSearchActive }) => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchSkeleLoading, setSearchSkeleLoading] = useState(false);
   const {currentUser} = useUserStore();
@@ -62,6 +62,7 @@ const SearchList = ({ searchActive, input, setInput }) => {
       if(chatExists){
         console.log("chat already exists");
         setInput("");
+        setSearchActive(false);
         return;
       }
 
@@ -91,8 +92,9 @@ const SearchList = ({ searchActive, input, setInput }) => {
       })
 
       setInput("");
+      setSearchActive(false);
 
-      console.log(newChatRef.id);
+      // console.log(newChatRef.id);
       
     } catch (err) {
       console.log(err);
