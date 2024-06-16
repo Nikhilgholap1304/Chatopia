@@ -20,7 +20,7 @@ const ChatList = ({
   const { currentUid } = useAuth();
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
-  const { changeChat } = useChatStore();
+  const { changeChat, chatId } = useChatStore();
   useEffect(() => {
     const unSub = onSnapshot(
       doc(db, "userchats", currentUser.id),
@@ -60,6 +60,7 @@ const ChatList = ({
   const handleSelect = async (chat) => {
     await changeChat(chat.chatId, chat.user)
     setSideBarOpen(false)
+    // console.log(chat.chatId, chat.user);
   }
 
   return (
@@ -77,7 +78,7 @@ const ChatList = ({
         {chats.length !== 0 &&
           chats.map((chat) => (
             <div
-              className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative `}
+              className={`flex hover:bg-graylightsecondarytextcolor cursor-pointer relative transition-all ${chat.chatId === chatId && 'bg-graylightsecondarytextcolor'}`}
               key={chat.chatId}
             >
               <Ripples

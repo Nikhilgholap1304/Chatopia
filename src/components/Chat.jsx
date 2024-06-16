@@ -22,7 +22,13 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
-import { arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useChatStore } from "../lib/chatStore";
 import { useUserStore } from "../lib/userStore";
@@ -40,7 +46,7 @@ const Chat = ({
   const [isUploadOpt, setIsUploadOpt] = useState(false);
   const endChatRef = useRef(null);
   const { currentUser } = useUserStore();
-  const { chatId } = useChatStore();
+  const { chatId, user } = useChatStore();
 
   useEffect(() => {
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -50,6 +56,7 @@ const Chat = ({
     setTimeout(() => {
       const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
         setChat(res.data());
+        console.log(res.data());
       });
       return () => {
         unSub();
@@ -57,7 +64,7 @@ const Chat = ({
     }, 100);
   }, [chatId]);
 
-  console.log(chat);
+  console.log(chatId);
 
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
@@ -79,11 +86,36 @@ const Chat = ({
       return;
     }
     try {
-      await updateDoc(doc(db, "chats", chatId),{
-        messages:arrayUnion({
+      await updateDoc(doc(db, "chats", chatId), {
+        messages: arrayUnion({
           senderId: currentUser.id,
           text,
-        })
+          createdAt: new Date(),
+        }),
+      });
+
+      const userIDs = [currentUser.id, user.id];
+
+      userIDs.forEach(async (id) => {
+        const userChatsRef = doc(db, "userchats", id);
+        const userChatsSnapshot = await getDoc(userChatsRef);
+
+        if (userChatsSnapshot.exists()) {
+          const userChatsData = userChatsSnapshot.data();
+
+          const chatIndex = userChatsData.chats.findIndex(
+            (c) => c.chatId === chatId
+          );
+
+          userChatsData.chats[chatIndex].lastMessage = text;
+          userChatsData.chats[chatIndex].isSeen =
+            id === currentUser.id ? true : false;
+          userChatsData.chats[chatIndex].updatedAt = Date.now();
+
+          await updateDoc(userChatsRef, {
+            chats: userChatsData.chats,
+          });
+        }
       });
     } catch (err) {
       console.log(err);
