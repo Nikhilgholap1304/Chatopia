@@ -63,8 +63,10 @@ const Chat = ({
       };
     }, 100);
   }, [chatId]);
-
-  console.log(chatId);
+  
+  // console.log(user)
+  console.log(localStorage.getItem('user'));
+  // console.log(chatId);
 
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
@@ -95,6 +97,7 @@ const Chat = ({
       });
 
       const userIDs = [currentUser.id, user.id];
+      // console.log(userIDs)
 
       userIDs.forEach(async (id) => {
         const userChatsRef = doc(db, "userchats", id);
@@ -115,6 +118,7 @@ const Chat = ({
           await updateDoc(userChatsRef, {
             chats: userChatsData.chats,
           });
+          setText("");
         }
       });
     } catch (err) {
@@ -182,7 +186,7 @@ const Chat = ({
               </IconButton>
               <div className="size-[3rem] xs:!size-[3rem] 2xs:size-[2.3rem]">
                 <Avatar
-                  src={Demo}
+                  src={user?.avatar}
                   name="A"
                   round
                   size="100%"
@@ -192,7 +196,7 @@ const Chat = ({
               </div>
               <div className="flex gap-1 justify-center flex-col">
                 <h3 className="xs:!leading-5 2xs:leading-none xs:!text-base 2xs:text-sm">
-                  Yash Saundalkar
+                  {user?.username}
                 </h3>
                 <p className="text-nowrap whitespace-nowrap overflow-hidden leading-none text-sm text-graysecondarytextcolor 2xs:text-xs xs:!text-sm">
                   last seen May 8 at 10:17

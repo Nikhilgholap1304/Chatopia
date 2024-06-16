@@ -21,6 +21,7 @@ const ChatList = ({
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
   const { changeChat, chatId } = useChatStore();
+  const [skeletonLoad, setSkeletonLoad] = useState(false);
   useEffect(() => {
     const unSub = onSnapshot(
       doc(db, "userchats", currentUser.id),
@@ -60,8 +61,13 @@ const ChatList = ({
   const handleSelect = async (chat) => {
     await changeChat(chat.chatId, chat.user)
     setSideBarOpen(false)
-    // console.log(chat.chatId, chat.user);
+    console.log(chat.chatId, chat.user);
   }
+  useEffect(()=>{
+   setTimeout(() => {
+    setSkeletonLoad(false)
+   }, 200);
+  },[])
 
   return (
     <>
@@ -86,12 +92,10 @@ const ChatList = ({
                 during={1200}
                 onClick={()=>handleSelect(chat)}
               >
-                <div className=" rounded-full size-[3rem] min-w-[3rem]">
-                  {/* <div className="w-full h-full bg-gray-800 rounded-full animate-pulse"/> */}
                   <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
-                    {/* {searchSkeleLoading ? (
+                    {skeletonLoad ? (
                       <div className="w-full h-full bg-gray-800 rounded-full animate-pulse" />
-                    ) : ( */}
+                    ) : (
                       <Avatar
                         src={chat.user.avatar ? chat.user.avatar : ""}
                         round={true}
@@ -100,8 +104,7 @@ const ChatList = ({
                         size="100%"
                         color="rgb(141 110 99)"
                       />
-                    {/* )} */}
-                  </div>
+                    )}
                 </div>
                 <div className="flex flex-col justify-center w-full gap-1">
                   <div className="flex justify-between">

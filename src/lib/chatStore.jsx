@@ -5,7 +5,7 @@ import { useUserStore } from "./userStore";
 
 export const useChatStore = create((set) => ({
   chatId: localStorage.getItem('chatId') || null,
-  user: localStorage.getItem('user') || null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   isCurrentUserBlocked: false,
   isReceiverBlocked: false,
   currentUser: null,
@@ -43,7 +43,7 @@ export const useChatStore = create((set) => ({
       });
     } else {
       localStorage.setItem('chatId',chatId);
-      localStorage.setItem('user',user);
+      localStorage.setItem('user',JSON.stringify(user));
       return set({
         chatId,
         user,

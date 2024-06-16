@@ -4,7 +4,18 @@ import "./style/style.scss";
 import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
-import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../lib/firebase";
 import Avatar from "react-avatar";
 import { useUserStore } from "../lib/userStore";
@@ -12,7 +23,7 @@ import { useUserStore } from "../lib/userStore";
 const SearchList = ({ searchActive, input, setInput, setSearchActive }) => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchSkeleLoading, setSearchSkeleLoading] = useState(false);
-  const {currentUser} = useUserStore();
+  const { currentUser } = useUserStore();
 
   useEffect(() => {
     const handleUserSearch = async () => {
@@ -51,15 +62,17 @@ const SearchList = ({ searchActive, input, setInput, setSearchActive }) => {
   }, [input]);
 
   const handleAdd = async (userId) => {
-    const chatRef = collection(db, 'chats')
-    const userChatsRef = collection(db, "userchats")
+    const chatRef = collection(db, "chats");
+    const userChatsRef = collection(db, "userchats");
     try {
       // check if chat already exists
       const userChatsDoc = await getDoc(doc(userChatsRef, currentUser.id));
       const userChatsData = userChatsDoc.data();
-      const chatExists = userChatsData.chats.some(chat=>chat.receiverId===userId);
+      const chatExists = userChatsData.chats.some(
+        (chat) => chat.receiverId === userId
+      );
 
-      if(chatExists){
+      if (chatExists) {
         console.log("chat already exists");
         setInput("");
         setSearchActive(false);
@@ -67,39 +80,38 @@ const SearchList = ({ searchActive, input, setInput, setSearchActive }) => {
       }
 
       // Create a new chat
-      const newChatRef = doc(chatRef); 
+      const newChatRef = doc(chatRef);
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
-        messages:[],
-      })
+        messages: [],
+      });
 
-      await updateDoc(doc(userChatsRef, userId),{
-        chats:arrayUnion({
+      await updateDoc(doc(userChatsRef, userId), {
+        chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
           receiverId: currentUser.id,
           updatedAt: Date.now(),
-        })
-      })
+        }),
+      });
 
-      await updateDoc(doc(userChatsRef, currentUser.id),{
-        chats:arrayUnion({
+      await updateDoc(doc(userChatsRef, currentUser.id), {
+        chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
           receiverId: userId,
           updatedAt: Date.now(),
-        })
-      })
+        }),
+      });
 
       setInput("");
       setSearchActive(false);
-
-      // console.log(newChatRef.id);
+      console.log(newChatRef.id);
       
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <motion.section
@@ -126,7 +138,7 @@ const SearchList = ({ searchActive, input, setInput, setSearchActive }) => {
           <Ripples
             className="absolute w-full h-full flex p-2 gap-2 items-center"
             during={1200}
-            onClick={()=>handleAdd(user.id)}
+            onClick={() => handleAdd(user.id)}
           >
             <div className="rounded-full size-[3rem] min-w-[3rem] min-h-[3rem]">
               {searchSkeleLoading ? (
