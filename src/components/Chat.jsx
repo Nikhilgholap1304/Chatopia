@@ -22,6 +22,7 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
+import { format, isSameDay } from "date-fns";
 import {
   arrayUnion,
   doc,
@@ -53,6 +54,20 @@ const Chat = ({
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
   });
 
+  // Function to group messages by date
+  const groupMessagesByDate = (messages) => {
+    return messages.reduce((groups, message) => {
+      const date = format(new Date(message.updatedAt), "yyyy-MM-dd");
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(message);
+      return groups;
+    }, {});
+  };
+
+  const groupedMessages = groupMessagesByDate(chat.messages);
+
   useEffect(() => {
     setTimeout(() => {
       const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
@@ -63,7 +78,7 @@ const Chat = ({
         unSub();
       };
     }, 100);
-  }, [chatId]);
+  }, [chatId]); 
 
   // console.log(user)
   console.log(localStorage.getItem("user"));
