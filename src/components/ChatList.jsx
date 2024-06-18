@@ -11,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import Avatar from "react-avatar";
 import { useChatStore } from "../lib/chatStore";
 import { GoDotFill } from "react-icons/go";
+import { format } from "date-fns";
 
 const ChatList = ({
   searchActive,
@@ -146,7 +147,7 @@ const ChatList = ({
                       <div className="w-[2rem] h-3 bg-gray-800 animate-pulse rounded" />
                     ) : (
                       <p className="xs:text-xs text-[0.7rem] leading-3 text-graysecondarytextcolor">
-                        15:35
+                        {format(new Date(chat.updatedAt), 'HH:mm')}
                       </p>
                     )}
                   </div>

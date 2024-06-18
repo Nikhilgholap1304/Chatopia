@@ -8,7 +8,7 @@ import {
   db,
   storage,
 } from "../lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -59,6 +59,7 @@ const Login = () => {
             email: email,
             avatar: profilePicUrl,
             id: user.uid,
+            lastSeen: serverTimestamp(),
             blocked: [],
           });
 
