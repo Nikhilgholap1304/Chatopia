@@ -87,7 +87,7 @@ const Chat = ({
     }, 100);
   }, [chatId]);
 
-  // console.log(user)
+  console.log(currentUser);
   // console.log(localStorage.getItem("user"));
   // console.log(chat?.messages[0].text);
 
@@ -114,7 +114,6 @@ const Chat = ({
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           senderId: currentUser.id,
-          receiverId: user.id,
           text,
           createdAt: new Date(),
         }),
@@ -332,24 +331,44 @@ const Chat = ({
                   {groupedMessages[date].map((message, index) => {
                     return (
                       <div
-                        className="flex justify-end"
+                        className={`flex ${
+                          message.senderId === currentUser.id
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
                         key={message?.createdAt}
                       >
-                        <div className="max-w-[30rem] min-w-[4rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 rounded-xl rounded-r-sm rounded-br-none relative">
+                        <div
+                          className={`max-w-[30rem] min-w-[4rem] ${
+                            message.senderId === currentUser.id
+                              ? "bg-brown-500 rounded-xl rounded-r-sm rounded-br-none"
+                              : "bg-graysurface rounded-xl rounded-l-sm rounded-bl-none"
+                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative`}
+                        >
                           <h1>{message?.text}</h1>
                           <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
                             {format(message.createdAt.toDate(), "HH:mm")}
                           </span>
-                          {index === groupedMessages[date].length - 1 && (
-                            <div
-                              style={{
-                                aspectRatio: 1,
-                                clipPath: "polygon(0 0,100% 100%,0 100%)",
-                                transform: "translateX",
-                              }}
-                              className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
-                            ></div>
-                          )}
+                          {index === groupedMessages[date].length - 1 &&
+                            (message.senderId === currentUser.id ? (
+                              <div
+                                style={{
+                                  aspectRatio: 1,
+                                  clipPath: "polygon(0 0,100% 100%,0 100%)",
+                                  transform: "translateX",
+                                }}
+                                className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                              ></div>
+                            ) : (
+                              <div
+                                style={{
+                                  aspectRatio: 1,
+                                  clipPath: "polygon(0 100%,100% 0,100% 100%)",
+                                  transform: "translateX",
+                                }}
+                                className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-graysurface"
+                              ></div>
+                            ))}
                         </div>
                       </div>
                     );
@@ -427,7 +446,7 @@ const Chat = ({
                         transform: "translateX",
                       }}
                       className="absolute w-2 h-3 right-[99.8%] bottom-0 bg-graysurface"
-                    ></div>{" "}
+                    ></div>
                     <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
                       15:30
                     </span>
@@ -490,7 +509,7 @@ const Chat = ({
                         transform: "translateX",
                       }}
                       className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
-                    ></div>{" "}
+                    ></div>
                     <span className="absolute bottom-3 right-5 text-xs text-white bg-black/50 py-1 px-2 rounded">
                       15:30
                     </span>
