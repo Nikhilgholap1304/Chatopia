@@ -346,7 +346,7 @@ const Chat = ({
             <div className="flex flex-col overflow-y-scroll items-center chatcontainer w-full gap-3 justify-start">
               {Object.keys(groupedMessages).map((date) => (
                 <section
-                  className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-1"
+                  className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-2"
                   key={date}
                 >
                   <div className="sticky top-1 w-full flex justify-center z-10">
