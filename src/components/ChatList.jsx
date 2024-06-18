@@ -5,7 +5,7 @@ import { Button } from "@material-tailwind/react";
 import Ripples from "react-ripples";
 import { motion } from "framer-motion";
 import { useUserStore } from "../lib/userStore";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "react-avatar";
@@ -60,9 +60,33 @@ const ChatList = ({
   }, [chats]);
 
   const handleSelect = async (chat) => {
-    await changeChat(chat.chatId, chat.user);
+    const userChats = chats.map((item) => {
+      const { user, ...rest } = item;
+      return rest;
+    });
+
+    const chatIndex = userChats.findIndex(
+      (item) => item.chatId === chat.chatId
+    );
+
+    console.log('chatindex:',chatIndex)
+
+    userChats[chatIndex].isSeen = true;
+    console.log(userChats[chatIndex].isSeen);
+
+    const userChatsRef = doc(db, "userchats", currentUser.id);
+
+    try {
+      await updateDoc(userChatsRef, {
+        chats: userChats,
+      });
+      await changeChat(chat.chatId, chat.user);
+    } catch (err) {
+      console.log(err);
+    }
+
     setSideBarOpen(false);
-    console.log(chat.chatId, chat.user);
+    // console.log(chat.chatId, chat.user);
   };
   useEffect(() => {
     setTimeout(() => {
@@ -140,19 +164,25 @@ const ChatList = ({
                     )}
                     {skeletonLoad ? (
                       <div className="w-4 h-4 bg-gray-800 animate-pulse rounded" />
-                    ) : (
+                    ) : chat.isSeen === false ? (
+                      // xs:size-6 2xs:size-5
                       <motion.span
-                        className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs"
+                        className="
+                        bg-transparent 
+                        grid place-content-center rounded-full leading-none text-xs"
                         animate={{
                           scale: [1, 0.8, 1],
+                          opacity:[1,0.5,1]
                         }}
                         transition={{
                           repeat: Infinity,
-                          duration: 2
+                          duration: 2,
                         }}
                       >
-                        <GoDotFill />
+                        <GoDotFill className="text-xl"/>
                       </motion.span>
+                    ) : (
+                      ""
                     )}
                   </div>
                 </div>
