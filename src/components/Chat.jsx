@@ -22,7 +22,7 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
-import { format, isSameDay, isToday, isYesterday } from "date-fns";
+import { format, formatDistanceToNow, isSameDay, isToday, isYesterday } from "date-fns";
 import {
   arrayUnion,
   doc,
@@ -49,6 +49,7 @@ const Chat = ({
   const { currentUser } = useUserStore();
   const { chatId, user } = useChatStore();
   const [skeletonLoad, setSkeletonLoad] = useState(true);
+  const [lastSeenText, setLastSeenText] = useState("");
 
   useEffect(() => {
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -155,6 +156,32 @@ const Chat = ({
     }, 1500);
   }, []);
 
+  useEffect(() => {
+    const fetchLastSeen = async () => {
+      try {
+        const userRef = doc(db, "users", user.id);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          if (data.lastSeen) {
+            const lastSeenDate = data.lastSeen.toDate();
+            const formattedLastSeen = formatDistanceToNow(lastSeenDate, {
+              addSuffix: true,
+            });
+            setLastSeenText(`last seen ${formattedLastSeen}`);
+          } else {
+            setLastSeenText('Soon');
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching last seen:", error);
+      }
+    };
+
+    fetchLastSeen();
+  }, [chatId]);
+
   return (
     <div
       className={`w-full h-full flex-2 lg:!translate-x-0 lg:!flex-1 lg:!w-full flex-1 flex flex-col relative justify-center 2xs:transition-none xs:transition-all ${
@@ -240,7 +267,10 @@ const Chat = ({
                   <div className="w-[10rem] h-4 bg-gray-800 animate-pulse rounded" />
                 ) : (
                   <p className="text-nowrap whitespace-nowrap overflow-hidden leading-none text-sm text-graysecondarytextcolor 2xs:text-xs xs:!text-sm">
-                    last seen May 8 at 10:17
+                    {/* last seen May 8 at 10:17 */}
+                    {/* last seen 
+                    {user.lastSeen && user?.lastSeen?.toDate().toLocaleString()} */}
+                    {lastSeenText}
                   </p>
                 )}
               </div>
