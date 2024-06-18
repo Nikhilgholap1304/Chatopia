@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase"; 
 import { useAuth } from "./context/AuthContext";
+import { useUserStore } from "../lib/userStore";
 
 const useTrackUserActivity = () => {
-  const { currentUser } = useAuth();
+  const { currentUser } = useUserStore();
 
   useEffect(() => {
     if (!currentUser) return;

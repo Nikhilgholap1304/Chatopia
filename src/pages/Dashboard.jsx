@@ -8,6 +8,7 @@ import Chat from "../components/Chat";
 import { useMediaQuery } from "react-responsive";
 import LightBox from "../components/LightBox";
 import { useChatStore } from "../lib/chatStore";
+import useTrackUserActivity from "../utils/useTrackUserActivity";
 
 const Dashboard = () => {
   const Navigate = useNavigate();
@@ -17,6 +18,8 @@ const Dashboard = () => {
     query: "(max-width: 1080px)",
   });
   const {chatId, changeChat} = useChatStore();
+
+  useTrackUserActivity();
 
   useEffect(() => {
     if (!Max1080) {
