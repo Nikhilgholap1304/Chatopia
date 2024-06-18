@@ -10,6 +10,7 @@ import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "react-avatar";
 import { useChatStore } from "../lib/chatStore";
+import { GoDotFill } from "react-icons/go";
 
 const ChatList = ({
   searchActive,
@@ -140,9 +141,18 @@ const ChatList = ({
                     {skeletonLoad ? (
                       <div className="w-4 h-4 bg-gray-800 animate-pulse rounded" />
                     ) : (
-                      <span className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs">
-                        2
-                      </span>
+                      <motion.span
+                        className="bg-brown-500 xs:size-6 2xs:size-5 grid place-content-center rounded-full leading-none text-xs"
+                        animate={{
+                          scale: [1, 0.8, 1],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2
+                        }}
+                      >
+                        <GoDotFill />
+                      </motion.span>
                     )}
                   </div>
                 </div>

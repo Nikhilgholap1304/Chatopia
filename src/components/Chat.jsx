@@ -22,7 +22,7 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, isToday, isYesterday } from "date-fns";
 import {
   arrayUnion,
   doc,
@@ -57,7 +57,13 @@ const Chat = ({
   // Function to group messages by date
   const groupMessagesByDate = (messages) => {
     return messages.reduce((groups, message) => {
-      const date = format(new Date(message.updatedAt), "yyyy-MM-dd");
+      let date;
+      try {
+        date = format(message.createdAt.toDate(), "yyyy-MM-dd");
+      } catch (error) {
+        console.error("Invalid timestamp:", message.createdAt, error);
+        return groups;
+      }
       if (!groups[date]) {
         groups[date] = [];
       }
@@ -66,7 +72,8 @@ const Chat = ({
     }, {});
   };
 
-  const groupedMessages = groupMessagesByDate(chat.messages);
+  const groupedMessages = chat ? groupMessagesByDate(chat.messages) : {};
+  console.log(groupedMessages);
 
   useEffect(() => {
     setTimeout(() => {
@@ -78,11 +85,11 @@ const Chat = ({
         unSub();
       };
     }, 100);
-  }, [chatId]); 
+  }, [chatId]);
 
   // console.log(user)
-  console.log(localStorage.getItem("user"));
-  console.log(chat?.messages[0].text);
+  // console.log(localStorage.getItem("user"));
+  // console.log(chat?.messages[0].text);
 
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
@@ -107,6 +114,7 @@ const Chat = ({
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           senderId: currentUser.id,
+          receiverId: user.id,
           text,
           createdAt: new Date(),
         }),
@@ -307,33 +315,48 @@ const Chat = ({
             } lg:visible lg:w-full lg:flex`}
           >
             <div className="flex flex-col overflow-y-scroll items-center chatcontainer w-full gap-3 justify-start">
-              <section className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-1">
-                <div className="sticky top-1 w-full flex justify-center z-10">
-                  <div className="bg-orange-900/50 py-[6px] px-3 rounded-full text-sm">
-                    April 26
-                  </div>
-                </div>
-                {chat?.messages.map((message) => {
-                  return (
-                    <div className="flex justify-end" key={message?.createdAt}>
-                      <div className="max-w-[30rem] min-w-[4rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-[1.2rem] px-3 rounded-xl rounded-r-sm rounded-br-none relative">
-                        <h1>{message?.text}</h1>
-                        <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
-                          15:30
-                        </span>
-                        <div
-                          style={{
-                            aspectRatio: 1,
-                            clipPath: "polygon(0 0,100% 100%,0 100%)",
-                            transform: "translateX",
-                          }}
-                          className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
-                        ></div>
-                      </div>
+              {Object.keys(groupedMessages).map((date) => (
+                <section
+                  className="w-full flex flex-col lg:!max-w-[80%] md:!max-w-[80%] max-w-[90%] relative gap-2 first:mt-1"
+                  key={date}
+                >
+                  <div className="sticky top-1 w-full flex justify-center z-10">
+                    <div className="bg-orange-900/50 py-[6px] px-3 rounded-full text-sm">
+                      {isToday(new Date(date))
+                        ? "Today"
+                        : isYesterday(new Date(date))
+                        ? "Yesterday"
+                        : format(new Date(date), "eeee, MMMM d")}
                     </div>
-                  );
-                })}
-                {/* <div className="flex justify-end">
+                  </div>
+                  {groupedMessages[date].map((message, index) => {
+                    return (
+                      <div
+                        className="flex justify-end"
+                        key={message?.createdAt}
+                      >
+                        <div className="max-w-[30rem] min-w-[4rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 rounded-xl rounded-r-sm rounded-br-none relative">
+                          <h1>{message?.text}</h1>
+                          <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
+                            {format(message.createdAt.toDate(), "HH:mm")}
+                          </span>
+                          {index === groupedMessages[date].length - 1 && (
+                            <div
+                              style={{
+                                aspectRatio: 1,
+                                clipPath: "polygon(0 0,100% 100%,0 100%)",
+                                transform: "translateX",
+                              }}
+                              className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                            ></div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </section>
+              ))}
+              {/* <div className="flex justify-end">
                   <div className="max-w-[30rem] bg-brown-500 break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-r-sm rounded-br-none relative">
                     <h1>
                       Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -371,7 +394,7 @@ const Chat = ({
                     </span>
                   </div>
                 </div> */}
-                {/* 
+              {/* 
                 <div className="flex justify-start">
                   <div className="max-w-[30rem] bg-graysurface break-words whitespace-pre-wrap py-1 pb-2 px-3 rounded-xl rounded-l-sm rounded-bl-none relative ">
                     <h1>
@@ -504,7 +527,6 @@ const Chat = ({
                     </span>
                   </div>
                 </div> */}
-              </section>
               <div ref={endChatRef}></div>
             </div>
           </div>
