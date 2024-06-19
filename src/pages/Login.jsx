@@ -14,11 +14,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
+import designBg from "../assets/bgImages/designBg1.png";
+import { useUserStore } from "../lib/userStore";
 
 const Login = () => {
   const Navigate = useNavigate();
   const [loading, setLoading] = useState(null);
   const { currentUid, setCurrentUid } = useAuth();
+  const { logout } = useUserStore();
 
   const handleClick = (id) => {
     setLoading(id);
@@ -71,7 +74,9 @@ const Login = () => {
         localStorage.setItem("loginTimestamp", new Date().getTime());
         localStorage.setItem("uid", user.uid);
         setLoading(null);
+        localStorage.setItem('Loading',true);
         Navigate(`/${user.uid}`);
+        window.location.reload();
       } catch (err) {
         console.error(
           `Error logging in with ${id === 1 ? "Google" : "GitHub"}:`,
@@ -86,6 +91,7 @@ const Login = () => {
 
   useEffect(() => {
     setCurrentUid(localStorage.getItem("uid"));
+    logout();
     if (currentUid) {
       Navigate(`/${currentUid}`);
     }
@@ -100,7 +106,10 @@ const Login = () => {
             " linear-gradient(to right bottom, #40322c, #4a362c, #543b2c, #5e402c, #67452b, #6d492b, #744e2b, #7a522b, #80572d, #865c2f, #8c6130, #926632)",
         }}
       >
-        <div className="bg-[url('./assets/bgImages/designBg1.png')] absolute top-0 left-0 bottom-0 w-full "></div>
+        <div
+          className="absolute top-0 left-0 bottom-0 w-full "
+          style={{ backgroundImage: `url('${designBg}')` }}
+        ></div>
         <div className="w-fit h-fit flex items-center justify-center flex-col gap-5 bg-brown-800 border border-brown-700 p-7 rounded-md shadow-lg scale-[0.95] xs:scale-100">
           <h1 className="font-roboto text-2xl mb-5">
             Welcome to{" "}

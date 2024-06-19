@@ -39,24 +39,23 @@ const App = () => {
   return (
     <Router>
       <AuthContextProvider>
-        {!isLoading ? (
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/:uid"
-              element={
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/:uid"
+            element={
+              !isLoading ? (
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
-              }
-            />
-            <Route path="/" element={<AuthRedirect />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        ) : (
-          isLoading && <LoadCont />
-        )}
-
+              ) : (
+                <LoadCont />
+              )
+            }
+          />
+          <Route path="/" element={<AuthRedirect />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
         {checkInterConnection()}
         <ToastCont />
       </AuthContextProvider>

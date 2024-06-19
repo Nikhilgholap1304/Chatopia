@@ -9,6 +9,7 @@ import { useMediaQuery } from "react-responsive";
 import LightBox from "../components/LightBox";
 import { useChatStore } from "../lib/chatStore";
 import useTrackUserActivity from "../utils/useTrackUserActivity";
+import { useUserStore } from "../lib/userStore";
 
 const Dashboard = () => {
   const Navigate = useNavigate();
@@ -18,6 +19,7 @@ const Dashboard = () => {
     query: "(max-width: 1080px)",
   });
   const {chatId, changeChat} = useChatStore();
+  const { isLoading, logout } = useUserStore();
 
   useTrackUserActivity();
 
@@ -37,11 +39,13 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      changeChat(null, null);
+      await changeChat(null, null);
       localStorage.removeItem("uid");
       localStorage.removeItem("loginTimestamp");
       localStorage.removeItem('chatId');
       localStorage.removeItem('user');
+      localStorage.setItem('Loading', false);
+      await logout();
       Navigate("/login");
     } catch (err) {
       console.error("Error logging out:", err);
