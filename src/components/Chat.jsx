@@ -18,6 +18,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
 import "../components/style/style.scss";
+import designBg from '../assets/bgImages/designBg1.png';
 import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
@@ -194,7 +195,7 @@ const Chat = ({
           "linear-gradient(to right bottom, #322200, #372701, #3d2b01, #423001, #473501, #4c3901, #523e01, #574201, #5e4701, #654b01, #6c5000, #735500",
       }}
     >
-      <div className="bg-[url('./assets\bgImages\designBg1.png')] absolute inset-0" />
+      <div className={` absolute inset-0`} style={{backgroundImage: `url('${designBg}')`}} />
       {!chatId ? (
         <div
           className={`m-auto relative z-10 ${
