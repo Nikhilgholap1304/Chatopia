@@ -21,6 +21,7 @@ const AuthRedirect = () => {
   useEffect(() => {
     if (currentUid) {
       navigate(`/${currentUid}`);
+      window.location.reload();
     } else {
       navigate("/login");
     }

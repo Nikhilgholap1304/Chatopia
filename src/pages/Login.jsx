@@ -94,6 +94,7 @@ const Login = () => {
     logout();
     if (currentUid) {
       Navigate(`/${currentUid}`);
+      window.location.reload();
     }
   }, [setCurrentUid, Navigate, currentUid]);
 
