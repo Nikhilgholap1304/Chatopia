@@ -2,7 +2,7 @@ import React from "react";
 import FsLightbox from "fslightbox-react";
 
 const LightBox = ({ assetPreviewTog, assetSources, setAssetSources }) => {
-  // console.log(assetSources);
+  console.log(assetSources);
   return (
     <FsLightbox
       toggler={assetPreviewTog}

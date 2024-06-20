@@ -435,8 +435,8 @@ const Chat = ({
                         <div
                           className={`max-w-[30rem] min-w-[4rem] ${
                             message.senderId === currentUser.id
-                              ? "bg-brown-500 rounded-xl rounded-r-sm rounded-br-none"
-                              : "bg-graysurface rounded-xl rounded-l-sm rounded-bl-none"
+                              ? `bg-brown-500 rounded-xl rounded-r-sm rounded-br-none ${message.contentUrl && '!rounded !rounded-br-none'}`
+                              : `bg-graysurface rounded-xl rounded-l-sm rounded-bl-none ${message.contentUrl && '!rounded !rounded-bl-none'}`
                           }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${message.contentUrl && '!p-[1px]'}`}
                         >
                           {message.contentUrl ? (
@@ -463,7 +463,7 @@ const Chat = ({
                                   clipPath: "polygon(0 0,100% 100%,0 100%)",
                                   transform: "translateX",
                                 }}
-                                className="absolute w-2 h-3 left-[99.8%] bottom-0 bg-brown-500"
+                                className="absolute w-2 h-3 left-[99.8%] -bottom-[0.3px] bg-brown-500"
                               ></div>
                             ) : (
                               <div
