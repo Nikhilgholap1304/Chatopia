@@ -18,12 +18,18 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
 import EmojiPicker from "emoji-picker-react";
 import "../components/style/style.scss";
-import designBg from '../assets/bgImages/designBg1.png';
+import designBg from "../assets/bgImages/designBg1.png";
 import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
-import { format, formatDistanceToNow, isSameDay, isToday, isYesterday } from "date-fns";
+import {
+  format,
+  formatDistanceToNow,
+  isSameDay,
+  isToday,
+  isYesterday,
+} from "date-fns";
 import {
   arrayUnion,
   doc,
@@ -31,9 +37,11 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../lib/firebase";
+import { db, storage } from "../lib/firebase";
 import { useChatStore } from "../lib/chatStore";
 import { useUserStore } from "../lib/userStore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { toast } from "react-toastify";
 
 const Chat = ({
   setSideBarOpen,
@@ -51,6 +59,10 @@ const Chat = ({
   const { chatId, user } = useChatStore();
   const [skeletonLoad, setSkeletonLoad] = useState(true);
   const [lastSeenText, setLastSeenText] = useState("");
+  const [content, setContent] = useState({
+    file: null,
+    url: "",
+  });
 
   useEffect(() => {
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -112,6 +124,7 @@ const Chat = ({
     if (text === "") {
       return;
     }
+
     try {
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
@@ -143,6 +156,7 @@ const Chat = ({
           await updateDoc(userChatsRef, {
             chats: userChatsData.chats,
           });
+
           setText("");
         }
       });
@@ -172,7 +186,7 @@ const Chat = ({
             });
             setLastSeenText(`last seen ${formattedLastSeen}`);
           } else {
-            setLastSeenText('Soon');
+            setLastSeenText("Soon");
           }
         }
       } catch (error) {
@@ -182,6 +196,52 @@ const Chat = ({
 
     fetchLastSeen();
   }, [chatId]);
+
+  const handleContent = async (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      const fileTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "video/mp4",
+        "video/webm",
+      ];
+      if (!fileTypes.includes(file.type)) {
+        // alert("Unsupported file type. Please upload an image or video.");
+        toast.error("Unsupported file type");
+        return;
+      }
+      setContent({
+        file,
+        url: URL.createObjectURL(file),
+      });
+
+      try {
+        const storageRef = ref(storage, `chat_content/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const contentUrl = await getDownloadURL(storageRef);
+
+        await updateDoc(doc(db, "chats", chatId), {
+          messages: arrayUnion({
+            senderId: currentUser.id,
+            text: "",
+            createdAt: new Date(),
+            contentUrl,
+          }),
+        });
+
+        setContent({ file: null, url: "" });
+        console.log("Message sent with file:", contentUrl);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("content : ", content);
+  }, [content]);
 
   return (
     <div
@@ -195,7 +255,10 @@ const Chat = ({
           "linear-gradient(to right bottom, #322200, #372701, #3d2b01, #423001, #473501, #4c3901, #523e01, #574201, #5e4701, #654b01, #6c5000, #735500",
       }}
     >
-      <div className={` absolute inset-0`} style={{backgroundImage: `url('${designBg}')`}} />
+      <div
+        className={` absolute inset-0`}
+        style={{ backgroundImage: `url('${designBg}')` }}
+      />
       {!chatId ? (
         <div
           className={`m-auto relative z-10 ${
@@ -374,9 +437,21 @@ const Chat = ({
                             message.senderId === currentUser.id
                               ? "bg-brown-500 rounded-xl rounded-r-sm rounded-br-none"
                               : "bg-graysurface rounded-xl rounded-l-sm rounded-bl-none"
-                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative`}
+                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${message.contentUrl && '!p-[1px]'}`}
                         >
-                          <h1>{message?.text}</h1>
+                          {message.contentUrl ? (
+                            <img
+                              src={message.contentUrl}
+                              alt="content"
+                              className="w-full h-full rounded"
+                              onClick={() => {
+                                setAssetPreviewTog((prev) => !prev);
+                                handleAssetSource(message.contentUrl);
+                              }}
+                            />
+                          ) : (
+                            <h1>{message?.text}</h1>
+                          )}
                           <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
                             {format(message.createdAt.toDate(), "HH:mm")}
                           </span>
@@ -699,7 +774,13 @@ const Chat = ({
                     <label className="font-medium text-sm" htmlFor="fileInput">
                       Photo or video
                     </label>
-                    <input type="file" name="fileInput" id="fileInput" hidden />
+                    <input
+                      type="file"
+                      name="fileInput"
+                      id="fileInput"
+                      hidden
+                      onChange={(e) => handleContent(e)}
+                    />
                   </div>
                   <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
                     <CgFileDocument className="size-[1.3rem] -mt-[2px]" />
