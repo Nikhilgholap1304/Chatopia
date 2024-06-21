@@ -40,7 +40,12 @@ import {
 import { db, storage } from "../lib/firebase";
 import { useChatStore } from "../lib/chatStore";
 import { useUserStore } from "../lib/userStore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { toast } from "react-toastify";
 
 const Chat = ({
@@ -59,6 +64,9 @@ const Chat = ({
   const { chatId, user } = useChatStore();
   const [skeletonLoad, setSkeletonLoad] = useState(true);
   const [lastSeenText, setLastSeenText] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const [content, setContent] = useState({
     file: null,
     url: "",
@@ -219,20 +227,36 @@ const Chat = ({
 
       try {
         const storageRef = ref(storage, `chat_content/${file.name}`);
-        await uploadBytes(storageRef, file);
-        const contentUrl = await getDownloadURL(storageRef);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadProgress(progress);
+            setUploading(true);
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            console.error("Upload failed:", error);
+            setUploading(false);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            await updateDoc(doc(db, "chats", chatId), {
+              messages: arrayUnion({
+                senderId: currentUser.id,
+                text: "",
+                createdAt: new Date(),
+                contentUrl: downloadURL,
+              }),
+            });
+            setUploading(false);
+            setContent({ file: null, url: null });
+          }
+        );
 
-        await updateDoc(doc(db, "chats", chatId), {
-          messages: arrayUnion({
-            senderId: currentUser.id,
-            text: "",
-            createdAt: new Date(),
-            contentUrl,
-          }),
-        });
-
-        setContent({ file: null, url: "" });
-        console.log("Message sent with file:", contentUrl);
+        console.log("Message sent with file:");
       } catch (err) {
         console.log(err);
       }
@@ -242,6 +266,13 @@ const Chat = ({
   useEffect(() => {
     console.log("content : ", content);
   }, [content]);
+
+  const isVideo = (url) => {
+    const videoExtensions = ["mp4", "webm", "ogg"];
+    const cleanUrl = url.split("?")[0];
+    const extension = cleanUrl.split(".").pop().toLowerCase();
+    return videoExtensions.includes(extension);
+  };
 
   return (
     <div
@@ -435,20 +466,51 @@ const Chat = ({
                         <div
                           className={`max-w-[30rem] min-w-[4rem] ${
                             message.senderId === currentUser.id
-                              ? `bg-brown-500 rounded-xl rounded-r-sm rounded-br-none ${message.contentUrl && '!rounded !rounded-br-none'}`
-                              : `bg-graysurface rounded-xl rounded-l-sm rounded-bl-none ${message.contentUrl && '!rounded !rounded-bl-none'}`
-                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${message.contentUrl && '!p-[1px]'}`}
+                              ? `bg-brown-500 rounded-xl rounded-r-sm rounded-br-none ${
+                                  message.contentUrl &&
+                                  "!rounded !rounded-br-none"
+                                }`
+                              : `bg-graysurface rounded-xl rounded-l-sm rounded-bl-none ${
+                                  message.contentUrl &&
+                                  "!rounded !rounded-bl-none"
+                                }`
+                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${
+                            message.contentUrl && "!p-[1px]"
+                          }`}
                         >
-                          {message.contentUrl ? (
-                            <img
-                              src={message.contentUrl}
-                              alt="content"
-                              className="w-full h-full rounded"
-                              onClick={() => {
-                                setAssetPreviewTog((prev) => !prev);
-                                handleAssetSource(message.contentUrl);
-                              }}
-                            />
+                          {!uploading ? (
+                            <div className="upload-progress">
+                              <div className="loading-indicator">
+                                Uploading... {uploadProgress}%
+                              </div>
+                              <progress
+                                value={uploadProgress}
+                                max="100"
+                              ></progress>
+                            </div>
+                          ) : message.contentUrl ? (
+                            isVideo(message.contentUrl) ? (
+                              <video
+                                src={message.contentUrl}
+                                alt="content"
+                                className="w-full h-full rounded"
+                                controls
+                                onClick={() => {
+                                  setAssetPreviewTog((prev) => !prev);
+                                  handleAssetSource(message.contentUrl);
+                                }}
+                              />
+                            ) : (
+                              <img
+                                src={message.contentUrl}
+                                alt="content"
+                                className="w-full h-full rounded"
+                                onClick={() => {
+                                  setAssetPreviewTog((prev) => !prev);
+                                  handleAssetSource(message.contentUrl);
+                                }}
+                              />
+                            )
                           ) : (
                             <h1>{message?.text}</h1>
                           )}
