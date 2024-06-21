@@ -37,26 +37,27 @@ const PrivateRoute = ({ children }) => {
 
 const App = () => {
   const { isLoading } = useUserStore();
+  const Loading = localStorage.getItem("Loading");
   return (
     <Router>
       <AuthContextProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/:uid"
-            element={
-              !isLoading ? (
+        {!isLoading ? (
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/:uid"
+              element={
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
-              ) : (
-                <LoadCont />
-              )
-            }
-          />
-          <Route path="/" element={<AuthRedirect />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+              }
+            />
+            <Route path="/" element={<AuthRedirect />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        ) : (
+          <LoadCont />
+        )}
         {checkInterConnection()}
         <ToastCont />
       </AuthContextProvider>

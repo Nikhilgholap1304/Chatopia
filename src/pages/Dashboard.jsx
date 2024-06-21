@@ -18,7 +18,7 @@ const Dashboard = () => {
   const Max1080 = useMediaQuery({
     query: "(max-width: 1080px)",
   });
-  const {chatId, changeChat} = useChatStore();
+  const { chatId, changeChat } = useChatStore();
   const { isLoading, logout } = useUserStore();
 
   useTrackUserActivity();
@@ -42,9 +42,9 @@ const Dashboard = () => {
       await changeChat(null, null);
       localStorage.removeItem("uid");
       localStorage.removeItem("loginTimestamp");
-      localStorage.removeItem('chatId');
-      localStorage.removeItem('user');
-      localStorage.setItem('Loading', false);
+      localStorage.removeItem("chatId");
+      localStorage.removeItem("user");
+      localStorage.setItem("Loading", false);
       await logout();
       Navigate("/login");
     } catch (err) {
@@ -60,12 +60,12 @@ const Dashboard = () => {
         logout={handleLogout}
       />
       {/* {chatId ? ( */}
-        <Chat
-          setSideBarOpen={setSideBarOpen}
-          sideBarOpen={sideBarOpen}
-          setAssetPreviewTog={setAssetPreviewTog}
-          handleAssetSource={handleAssetSource}
-        />
+      <Chat
+        setSideBarOpen={setSideBarOpen}
+        sideBarOpen={sideBarOpen}
+        setAssetPreviewTog={setAssetPreviewTog}
+        handleAssetSource={handleAssetSource}
+      />
       {/* ):''} */}
       {/* <div>
         <h1>{currentUid}</h1>
