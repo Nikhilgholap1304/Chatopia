@@ -23,7 +23,7 @@ export const useChatStore = create((set) => ({
     // check if the current user is blocked
     if (user.blocked.includes(currentUser.id)) {
       localStorage.setItem('chatId',chatId);
-      localStorage.setItem('user',user)
+      localStorage.setItem('user',JSON.stringify(user))
       return set({
         chatId,
         user: user,
@@ -34,7 +34,7 @@ export const useChatStore = create((set) => ({
     // check if the receiver is blocked
     else if (currentUser.blocked.includes(user.id)) {
       localStorage.setItem('chatId',chatId);
-      localStorage.setItem('user',user)
+      localStorage.setItem('user',JSON.stringify(user))
       return set({
         chatId,
         user: user,
