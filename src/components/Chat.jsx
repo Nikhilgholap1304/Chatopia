@@ -23,6 +23,7 @@ import { HiPhoto } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import FsLightbox from "fslightbox-react";
 import PaperPlane from "../assets/bgImages/PaperPlane.png";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   format,
   formatDistanceToNow,
@@ -47,6 +48,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { toast } from "react-toastify";
+import { LinearProgress } from "@mui/material";
 
 const Chat = ({
   setSideBarOpen,
@@ -66,6 +68,10 @@ const Chat = ({
   const [lastSeenText, setLastSeenText] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [docFile, setDocFile] = useState({
+    file: null,
+    url: "",
+  });
 
   const [content, setContent] = useState({
     file: null,
@@ -208,6 +214,10 @@ const Chat = ({
   const handleContent = async (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
+      if (file.size > 16 * 1024 * 1024) {
+        toast.error("File size must be smaller than 16MB");
+        return;
+      }
       const fileTypes = [
         "image/jpeg",
         "image/jpg",
@@ -273,6 +283,23 @@ const Chat = ({
     const extension = cleanUrl.split(".").pop().toLowerCase();
     return videoExtensions.includes(extension);
   };
+
+  const handleDocFileChange = (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 16 * 1024 * 1024) {
+        toast.error("File size must be smaller than 16MB");
+        return;
+      }
+      setDocFile({
+        file,
+        url: URL.createObjectURL(file),
+      });
+    }
+  };
+  useEffect(() => {
+    console.log("docFile:", docFile);
+  },[docFile]);
 
   return (
     <div
@@ -478,22 +505,12 @@ const Chat = ({
                             message.contentUrl && "!p-[1px]"
                           }`}
                         >
-                          {!uploading ? (
-                            <div className="upload-progress">
-                              <div className="loading-indicator">
-                                Uploading... {uploadProgress}%
-                              </div>
-                              <progress
-                                value={uploadProgress}
-                                max="100"
-                              ></progress>
-                            </div>
-                          ) : message.contentUrl ? (
+                          {message.contentUrl ? (
                             isVideo(message.contentUrl) ? (
                               <video
                                 src={message.contentUrl}
                                 alt="content"
-                                className="w-full h-full rounded"
+                                className="w-full h-full rounded cursor-pointer"
                                 controls
                                 onClick={() => {
                                   setAssetPreviewTog((prev) => !prev);
@@ -504,7 +521,7 @@ const Chat = ({
                               <img
                                 src={message.contentUrl}
                                 alt="content"
-                                className="w-full h-full rounded"
+                                className="w-full h-full rounded cursor-pointer"
                                 onClick={() => {
                                   setAssetPreviewTog((prev) => !prev);
                                   handleAssetSource(message.contentUrl);
@@ -849,7 +866,13 @@ const Chat = ({
                     <label className="font-medium text-sm" htmlFor="docInput">
                       Document
                     </label>
-                    <input type="file" name="docInput" id="docInput" hidden />
+                    <input
+                      type="file"
+                      name="docInput"
+                      id="docInput"
+                      hidden
+                      onChange={(e) => handleDocFileChange(e)}
+                    />
                   </div>
                 </motion.div>
               </div>
@@ -863,6 +886,15 @@ const Chat = ({
             </Button>
           </div>
         </>
+      )}
+      {uploading && (
+        <div className="fixed top-0 left-0 right-0 z-[100]">
+          <LinearProgress
+            variant="determinate"
+            value={uploadProgress}
+            color="warning"
+          />
+        </div>
       )}
     </div>
   );
