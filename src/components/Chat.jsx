@@ -32,6 +32,7 @@ import {
   isYesterday,
 } from "date-fns";
 import {
+  arrayRemove,
   arrayUnion,
   doc,
   getDoc,
@@ -63,7 +64,8 @@ const Chat = ({
   const [isUploadOpt, setIsUploadOpt] = useState(false);
   const endChatRef = useRef(null);
   const { currentUser } = useUserStore();
-  const { chatId, user } = useChatStore();
+  const { chatId, user, changeBlock, isCurrentUserBlocked, isReceiverBlocked } =
+    useChatStore();
   const [skeletonLoad, setSkeletonLoad] = useState(true);
   const [lastSeenText, setLastSeenText] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -409,6 +411,21 @@ const Chat = ({
     window.open(url, "_blank");
   };
 
+  const handleBlock = async () => {
+    if (!user) return;
+
+    const userDocRef = doc(db, "users", currentUser.id);
+
+    try {
+      await updateDoc(userDocRef, {
+        blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
+      });
+      changeBlock();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div
       className={`w-full h-full flex-2 lg:!translate-x-0 lg:!flex-1 lg:!w-full flex-1 flex flex-col relative justify-center 2xs:transition-none xs:transition-all ${
@@ -500,7 +517,9 @@ const Chat = ({
                     {/* last seen May 8 at 10:17 */}
                     {/* last seen 
                     {user.lastSeen && user?.lastSeen?.toDate().toLocaleString()} */}
-                    {currentUser?.id === user.id  ? 'Message yourself' : lastSeenText}
+                    {currentUser?.id === user?.id
+                      ? "Message yourself"
+                      : lastSeenText}
                   </p>
                 )}
               </div>
@@ -554,9 +573,14 @@ const Chat = ({
                         <BsCameraVideo className="size-[1.2rem]" />
                         <span className="font-medium text-sm">Video Call</span>
                       </div>
-                      <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                      <div
+                        className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]"
+                        onClick={handleBlock}
+                      >
                         <FiLock className="size-[1.2rem]" />
-                        <span className="font-medium text-sm">Block User</span>
+                        <span className="font-medium text-sm">
+                          {isReceiverBlocked ? "Unblock User" : "Block User"}
+                        </span>
                       </div>
                       <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300">
                         <AiOutlineDelete className="size-[1.4rem]" />
@@ -894,7 +918,10 @@ const Chat = ({
           <div
             className={`relative ${
               !sideBarOpen ? "visible w-full !flex" : "invisible w-0 hidden"
-            } lg:visible lg:w-full lg:flex transition-all justify-center items-center gap-2 py-[0.5rem]`}
+            } lg:visible lg:w-full lg:flex transition-all justify-center items-center gap-2 py-[0.5rem] ${
+              isCurrentUserBlocked ||
+              (isReceiverBlocked && "cursor-not-allowed pointer-events-none")
+            }`}
           >
             <div className="xl:max-w-[60%] lg:max-w-[80%] md:max-w-[70%] 2xs:max-w-[80%] flex-1 bg-graysurface rounded-lg rounded-br-none items-center relative">
               <div className="flex flex-1 shadow-lg relative items-end">
@@ -932,7 +959,9 @@ const Chat = ({
                       duration: 0.2,
                     }}
                   >
-                    Message
+                    {isCurrentUserBlocked || isReceiverBlocked
+                      ? "Cannot send message"
+                      : "Message"}
                   </motion.span>
                 </div>
                 <div className="flex items-center p-2">
