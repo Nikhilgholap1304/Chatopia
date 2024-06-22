@@ -145,6 +145,7 @@ const Chat = ({
           senderId: currentUser.id,
           text,
           createdAt: new Date(),
+          type: "text",
         }),
       });
 
@@ -212,6 +213,9 @@ const Chat = ({
   }, [chatId]);
 
   const handleContent = async (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
     if (e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 16 * 1024 * 1024) {
@@ -258,11 +262,41 @@ const Chat = ({
                 senderId: currentUser.id,
                 text: "",
                 createdAt: new Date(),
+                type: "media",
                 contentUrl: downloadURL,
+                fileType: file.type,
+                fileName: file.name,
+                fileSize: (file.size / (1024 * 1024)).toFixed(2) + " MB", // size in MB
               }),
             });
-            setUploading(false);
-            setContent({ file: null, url: null });
+            const userIDs = [currentUser.id, user.id];
+            // console.log(userIDs)
+
+            userIDs.forEach(async (id) => {
+              const userChatsRef = doc(db, "userchats", id);
+              const userChatsSnapshot = await getDoc(userChatsRef);
+
+              if (userChatsSnapshot.exists()) {
+                const userChatsData = userChatsSnapshot.data();
+
+                const chatIndex = userChatsData.chats.findIndex(
+                  (c) => c.chatId === chatId
+                );
+
+                userChatsData.chats[chatIndex].lastMessage = file.name;
+                userChatsData.chats[chatIndex].isSeen =
+                  id === currentUser.id ? true : false;
+                userChatsData.chats[chatIndex].updatedAt = Date.now();
+
+                await updateDoc(userChatsRef, {
+                  chats: userChatsData.chats,
+                });
+
+                setText("");
+                setUploading(false);
+                setContent({ file: null, url: null });
+              }
+            });
           }
         );
 
@@ -285,6 +319,9 @@ const Chat = ({
   };
 
   const handleDocFileChange = (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
     if (e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 16 * 1024 * 1024) {
@@ -295,11 +332,81 @@ const Chat = ({
         file,
         url: URL.createObjectURL(file),
       });
+      try {
+        const storageRef = ref(storage, `chat_content/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadProgress(progress);
+            setUploading(true);
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            console.error("Upload failed:", error);
+            setUploading(false);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            await updateDoc(doc(db, "chats", chatId), {
+              messages: arrayUnion({
+                senderId: currentUser.id,
+                text: "",
+                createdAt: new Date(),
+                type: "document",
+                contentUrl: downloadURL,
+                fileType: file.type,
+                fileName: file.name,
+                fileSize: (file.size / (1024 * 1024)).toFixed(2) + " MB", // size in MB
+              }),
+            });
+            const userIDs = [currentUser.id, user.id];
+            // console.log(userIDs)
+
+            userIDs.forEach(async (id) => {
+              const userChatsRef = doc(db, "userchats", id);
+              const userChatsSnapshot = await getDoc(userChatsRef);
+
+              if (userChatsSnapshot.exists()) {
+                const userChatsData = userChatsSnapshot.data();
+
+                const chatIndex = userChatsData.chats.findIndex(
+                  (c) => c.chatId === chatId
+                );
+
+                userChatsData.chats[chatIndex].lastMessage = file.name;
+                userChatsData.chats[chatIndex].isSeen =
+                  id === currentUser.id ? true : false;
+                userChatsData.chats[chatIndex].updatedAt = Date.now();
+
+                await updateDoc(userChatsRef, {
+                  chats: userChatsData.chats,
+                });
+
+                setText("");
+                setUploading(false);
+                setDocFile({ file: null, url: null });
+              }
+            });
+          }
+        );
+
+        console.log("Message sent with file:");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   useEffect(() => {
-    console.log("docFile:", docFile);
-  },[docFile]);
+    console.log("uploading ? ", uploading);
+    console.log("progress ? ", uploadProgress);
+  }, [uploading, uploadProgress]);
+
+  const handleDocumentClick = (url, type, fileName) => {
+    window.open(url, "_blank");
+  };
 
   return (
     <div
@@ -494,18 +601,18 @@ const Chat = ({
                           className={`max-w-[30rem] min-w-[4rem] ${
                             message.senderId === currentUser.id
                               ? `bg-brown-500 rounded-xl rounded-r-sm rounded-br-none ${
-                                  message.contentUrl &&
+                                  message.type === "media" &&
                                   "!rounded !rounded-br-none"
                                 }`
                               : `bg-graysurface rounded-xl rounded-l-sm rounded-bl-none ${
-                                  message.contentUrl &&
+                                  message.type === "media" &&
                                   "!rounded !rounded-bl-none"
                                 }`
                           }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${
-                            message.contentUrl && "!p-[1px]"
-                          }`}
+                            message.type === "media" && "!p-[1px]"
+                          } ${message.type === "document" && "!px-2 !py-1"}`}
                         >
-                          {message.contentUrl ? (
+                          {message.type === "media" ? (
                             isVideo(message.contentUrl) ? (
                               <video
                                 src={message.contentUrl}
@@ -530,6 +637,54 @@ const Chat = ({
                             )
                           ) : (
                             <h1>{message?.text}</h1>
+                          )}
+                          {message.type === "document" && (
+                            <div
+                              className="flex gap-1 items-center max-w-full group cursor-pointer"
+                              onClick={() =>
+                                handleDocumentClick(
+                                  message.contentUrl,
+                                  message.fileType.split("/")[1],
+                                  message.fileName
+                                )
+                              }
+                            >
+                              <div className="relative">
+                                <IoDocumentOutline className="xs:size-[4rem] xs:-ml-2 size-[3rem] -ml-1" />
+                                <span className="absolute top-1/2 xs:left-[43%] -translate-x-1/2  left-[46%]">
+                                  <FiDownload
+                                    className={`xs:size-5 size-4 scale-0 group-hover:scale-100 transition-all -mt-[2px]`}
+                                  />
+                                  <span
+                                    className={`xs:text-[0.7rem] text-[0.5rem] flex scale-[0.9] group-hover:scale-0 absolute top-0 -left-[4px] transition-all xs:!max-w-7 2xs:max-w-5 text-ellipsis whitespace-nowrap overflow-hidden`}
+                                  >
+                                    .
+                                    {message.fileName.split(".")[1] === "docx"
+                                      ? message.fileName.split(".")[1]
+                                      : message.fileType.split("/")[1]}
+                                  </span>
+                                </span>
+                              </div>
+                              <div className="flex-1 max-w-full flex flex-col xs:gap-1 overflow-hidden">
+                                <div className="inline-flex">
+                                  <h5 className="text-ellipsis whitespace-nowrap overflow-hidden xs:max-w-[85%] max-w-[80%]">
+                                    {message.fileName.substring(
+                                      0,
+                                      message.fileName.lastIndexOf(".")
+                                    )}
+                                  </h5>
+                                  <span className="max-w-[4rem] text-ellipsis whitespace-nowrap overflow-hidden">
+                                    .
+                                    {message.fileName.split(".")[1] === "docx"
+                                      ? message.fileName.split(".")[1]
+                                      : message.fileType.split("/")[1]}
+                                  </span>
+                                </div>
+                                <span className="text-sm opacity-70">
+                                  {message.fileSize}
+                                </span>
+                              </div>
+                            </div>
                           )}
                           <span className="absolute bottom-1 right-1 text-[0.6rem] text-white bg-black/50 py-[2px] px-[4px] rounded">
                             {format(message.createdAt.toDate(), "HH:mm")}
@@ -848,7 +1003,7 @@ const Chat = ({
                     scale: isUploadOpt ? 1 : 0.3,
                   }}
                 >
-                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer">
                     <HiPhoto className="size-[1.3rem] -mt-[2px]" />
                     <label className="font-medium text-sm" htmlFor="fileInput">
                       Photo or video
@@ -861,7 +1016,7 @@ const Chat = ({
                       onChange={(e) => handleContent(e)}
                     />
                   </div>
-                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95]">
+                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer">
                     <CgFileDocument className="size-[1.3rem] -mt-[2px]" />
                     <label className="font-medium text-sm" htmlFor="docInput">
                       Document
