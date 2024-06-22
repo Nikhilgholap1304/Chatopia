@@ -115,7 +115,8 @@ const Chat = ({
     }, 100);
   }, [chatId]);
 
-  console.log(currentUser);
+  // console.log(currentUser);
+  // console.log(user);
   // console.log(localStorage.getItem("user"));
   // console.log(chat?.messages[0].text);
 
@@ -201,7 +202,7 @@ const Chat = ({
             });
             setLastSeenText(`last seen ${formattedLastSeen}`);
           } else {
-            setLastSeenText("Soon");
+            setLastSeenText("Not yet");
           }
         }
       } catch (error) {
@@ -499,7 +500,7 @@ const Chat = ({
                     {/* last seen May 8 at 10:17 */}
                     {/* last seen 
                     {user.lastSeen && user?.lastSeen?.toDate().toLocaleString()} */}
-                    {lastSeenText}
+                    {currentUser?.id === user.id  ? 'Message yourself' : lastSeenText}
                   </p>
                 )}
               </div>
