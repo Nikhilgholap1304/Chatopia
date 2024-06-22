@@ -82,6 +82,7 @@ const ChatList = ({
         chats: userChats,
       });
       await changeChat(chat.chatId, chat.user);
+      localStorage.setItem('user',JSON.stringify(chat.user))
     } catch (err) {
       console.log(err);
     }

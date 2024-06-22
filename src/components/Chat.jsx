@@ -143,6 +143,19 @@ const Chat = ({
     }
 
     try {
+      const userDocRef = doc(db, "users", currentUser.id); // Create a document reference
+      const userDocSnap = await getDoc(userDocRef); // Fetch the document
+
+      if (!userDocSnap.exists()) {
+        return toast("User not found");
+      }
+
+      const userData = userDocSnap.data();
+
+      if (userData?.blocked?.includes(user.id)) {
+        return toast("You cannot send a message");
+      }
+
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           senderId: currentUser.id,
@@ -420,7 +433,7 @@ const Chat = ({
       await updateDoc(userDocRef, {
         blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
       });
-      changeBlock();
+      await changeBlock();
     } catch (err) {
       console.log(err);
     }
@@ -579,7 +592,9 @@ const Chat = ({
                       >
                         <FiLock className="size-[1.2rem]" />
                         <span className="font-medium text-sm">
-                          {isReceiverBlocked ? "Unblock User" : "Block User"}
+                          {isReceiverBlocked || isCurrentUserBlocked
+                            ? "Unblock User"
+                            : "Block User"}
                         </span>
                       </div>
                       <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300">
@@ -959,7 +974,7 @@ const Chat = ({
                       duration: 0.2,
                     }}
                   >
-                    {isCurrentUserBlocked || isReceiverBlocked
+                    {isReceiverBlocked || isCurrentUserBlocked
                       ? "Cannot send message"
                       : "Message"}
                   </motion.span>
