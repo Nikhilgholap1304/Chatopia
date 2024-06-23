@@ -5,37 +5,45 @@ import {
   DialogContentText,
   DialogTitle,
   Dialog,
+  ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import React from "react";
 
-export const DialogBox = ({ dialogOpen, setDialogOpen, handleDeleteChat }) => {
+const DialogBox = ({ dialogOpen, setDialogOpen, handleDeleteChat }) => {
   const handleClose = () => {
     setDialogOpen(false);
   };
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
   return (
     <>
-      <Dialog
-        open={dialogOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ThemeProvider theme={darkTheme}>
+        <Dialog
+          open={dialogOpen}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Delete Chat"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              By deleting this chat you will loose all the data related to it and can't be reverted back. Are you sure ? 
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} sx={{color:'#ff9886'}}>Disagree</Button>
+            <Button onClick={handleClose} variant="contained" color="error" autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </ThemeProvider>
     </>
   );
 };
