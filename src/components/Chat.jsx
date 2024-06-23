@@ -653,7 +653,7 @@ const Chat = ({
                                   message.type === "media" &&
                                   "!rounded !rounded-bl-none"
                                 }`
-                          }  break-words whitespace-pre-wrap py-1 pb-[1.3rem] px-3 relative ${
+                          }  break-words whitespace-pre-wrap py-1 pb-[1.45rem] px-3 relative ${
                             message.type === "media" && "!p-[1px]"
                           } ${message.type === "document" && "!px-2 !py-1"}`}
                         >
