@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "cp _redirects build/",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postbuild": "cp _redirects dist/"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
