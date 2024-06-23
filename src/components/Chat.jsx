@@ -50,6 +50,7 @@ import {
 } from "firebase/storage";
 import { toast } from "react-toastify";
 import { LinearProgress } from "@mui/material";
+import DialogBox from "./Dialog";
 
 const Chat = ({
   setSideBarOpen,
@@ -79,6 +80,7 @@ const Chat = ({
     file: null,
     url: "",
   });
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     endChatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -597,7 +599,7 @@ const Chat = ({
                             : "Block User"}
                         </span>
                       </div>
-                      <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300">
+                      <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300" onClick={()=>setDialogOpen(true)}>
                         <AiOutlineDelete className="size-[1.4rem]" />
                         <span className="font-medium text-sm">Delete Chat</span>
                       </div>
@@ -1087,6 +1089,7 @@ const Chat = ({
           </div>
         </>
       )}
+      <DialogBox setDialogOpen={setDialogOpen} dialogOpen={dialogOpen}/>
       {uploading && (
         <div className="fixed top-0 left-0 right-0 z-[100]">
           <LinearProgress
@@ -1097,6 +1100,7 @@ const Chat = ({
         </div>
       )}
     </div>
+
   );
 };
 
