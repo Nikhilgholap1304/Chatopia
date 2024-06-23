@@ -38,7 +38,6 @@ export const useChatStore = create((set) => ({
       localStorage.setItem("chatId", chatId);
       localStorage.setItem("user", JSON.stringify(user));
       // localStorage.setItem("isReceiverBlocked",true);
-      console.log("getting true");
       return set({
         chatId,
         user,

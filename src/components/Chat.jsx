@@ -599,7 +599,10 @@ const Chat = ({
                             : "Block User"}
                         </span>
                       </div>
-                      <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300" onClick={()=>setDialogOpen(true)}>
+                      <div
+                        className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] text-red-300"
+                        onClick={() => setDialogOpen(true)}
+                      >
                         <AiOutlineDelete className="size-[1.4rem]" />
                         <span className="font-medium text-sm">Delete Chat</span>
                       </div>
@@ -1050,11 +1053,11 @@ const Chat = ({
                     scale: isUploadOpt ? 1 : 0.3,
                   }}
                 >
-                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer">
-                    <HiPhoto className="size-[1.3rem] -mt-[2px]" />
-                    <label className="font-medium text-sm" htmlFor="fileInput">
+                  <label className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer">
+                    <HiPhoto className="size-[1.3rem] -mt-[2px] cursor-pointer" />
+                    <div className="font-medium text-sm cursor-pointer" htmlFor="fileInput cursor-pointer">
                       Photo or video
-                    </label>
+                    </div>
                     <input
                       type="file"
                       name="fileInput"
@@ -1062,12 +1065,12 @@ const Chat = ({
                       hidden
                       onChange={(e) => handleContent(e)}
                     />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer">
-                    <CgFileDocument className="size-[1.3rem] -mt-[2px]" />
-                    <label className="font-medium text-sm" htmlFor="docInput">
+                  </label>
+                  <label className="flex gap-3 items-center hover:bg-graylightsecondarytextcolor px-5 py-2 rounded transition-all active:scale-[0.95] cursor-pointer" htmlFor="docInput">
+                    <CgFileDocument className="size-[1.3rem] -mt-[2px] cursor-pointer" />
+                    <p className="font-medium text-sm cursor-pointer">
                       Document
-                    </label>
+                    </p>
                     <input
                       type="file"
                       name="docInput"
@@ -1075,7 +1078,7 @@ const Chat = ({
                       hidden
                       onChange={(e) => handleDocFileChange(e)}
                     />
-                  </div>
+                  </label>
                 </motion.div>
               </div>
             </div>
@@ -1089,7 +1092,11 @@ const Chat = ({
           </div>
         </>
       )}
-      <DialogBox setDialogOpen={setDialogOpen} dialogOpen={dialogOpen}/>
+      <DialogBox
+        setDialogOpen={setDialogOpen}
+        dialogOpen={dialogOpen}
+        setSideBarOpen={setSideBarOpen}
+      />
       {uploading && (
         <div className="fixed top-0 left-0 right-0 z-[100]">
           <LinearProgress
@@ -1100,7 +1107,6 @@ const Chat = ({
         </div>
       )}
     </div>
-
   );
 };
 

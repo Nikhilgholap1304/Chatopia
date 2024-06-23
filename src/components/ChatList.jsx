@@ -49,7 +49,7 @@ const ChatList = ({
     return () => {
       unSub();
     };
-  }, [currentUser.id]);
+  }, [currentUser.id, chatId]);
 
   useEffect(() => {
     if (chats.length === 0) {
