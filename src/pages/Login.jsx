@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import designBg from "../assets/bgImages/designBg1.png";
 import { useUserStore } from "../lib/userStore";
+import Google from "../assets/Google.png";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -132,7 +133,7 @@ const Login = () => {
               <>
                 <div className="w-10 h-10 bg-primary grid place-items-center rounded">
                   <img
-                    src="https://docs.material-tailwind.com/icons/google.svg"
+                    src={Google}
                     alt="metamask"
                     className="h-6 w-6"
                   />
