@@ -1,8 +1,13 @@
 <h2 align="center">
   Chatopia - v1.0<br/><br/>
 </h2>
+
 <div align="center">
-  <img alt="Demo" src="./readme_images/MockView.png"/>
+  <img alt="Demo" src="./readme_files/Chatopia 1.png"/>
+  <img alt="Demo" src="./readme_files/Chatopia 2.png"/>
+  <video width="320" height="240">
+    <source src="./readme_files/Chatopia.mp4" type="video/mp4">
+  </video>
 </div>
 
 <br/>
