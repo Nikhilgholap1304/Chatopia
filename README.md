@@ -5,9 +5,9 @@
 <div align="center">
   <img alt="Demo" src="./readme_files/Chatopia 1.png"/>
   <img alt="Demo" src="./readme_files/Chatopia 2.png"/>
-  <video width="320" height="240">
-    <source src="./readme_files/Chatopia.mp4" type="video/mp4">
-  </video>
+  https://github.com/Nikhilgholap1304/Chatopia/assets/118434064/13e35b58-6beb-4524-ae7c-f1cfc2ebb649
+
+
 </div>
 
 <br/>
@@ -24,46 +24,55 @@
 
 <h3 align="center">
     ☢
-    <a href="https://github.com/Nikhilgholap1304/NickFolio/issues">Report Bug</a> &nbsp; &nbsp;
+    <a href="https://github.com/Nikhilgholap1304/Chatopia/issues">Report Bug</a> &nbsp; &nbsp;
     ✨
-    <a href="https://github.com/Nikhilgholap1304/NickFolio/issues">Request Feature</a>
+    <a href="https://github.com/Nikhilgholap1304/Chatopia/issues">Request Feature</a>
 </h3>
 
 ## TL;DR
 
-You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [NikhilGholap1304](https://github.com/Nikhilgholap1304/NickFolio). Thanks!
+You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [NikhilGholap1304](https://github.com/Nikhilgholap1304/Chatopia). Thanks!
 
 ## Built With
 
-My personal portfolio <a href="https://nickfolio.vercel.app/" target="_blank">NickFolio</a> which features my personal details, contact medium, some of my github projects, my resume and technical skills, as well as some crazy testimonials ( This is gonna be a surprise ) .<br/>
+This is an comprehensive react chat app which can authorize persons via google and github register/login as Oauth latest. It has good UI, basic features, fully device responsive and still under construction.
 
 This project was built using these technologies.
 
 - React.js
 - Vite.js
-- Node.js
-- Tailwind
+- Firebase
+- Zustand state management
+- Material Tailwind
+- TailwindCss
+- MUI
 - Framer-Motion
 - SCSS
 - VsCode
-- IDX
 - Vercel
+- Context Api
 
 ## Features
 
-**🌘 Stuffed with Modern UI uniquely based on Space Theme**
+**🌘 Stuffed with Modern UI uniquely based on Telegrams Theme**
 
-**🎨 Styled with React-Tailwind**
+**🎫 Implementation of Google and github Auth**
 
-**🎗 Upto the Mark Animation**
+**😀 Emoji Picker**
 
-**🥽 Intuitive Parallax Effect**
+**📥 State management**
 
-**🚟 Horizontal Scroll Effect**
+**🧾 Applied Firestore and storage of firebase**
+
+**🎞 Able to share photo/video/doc/zip and many type of files**
+
+**🎨 Styled with TailwindCSS**
+
+**🎗 Upto the Mark UI and UX**
+
+**🥽 Smooth Effects**
 
 **📱 Fully Responsive**
-
-**... And many more, just try to explore and get things known !**
 
 ## Getting Started
 
