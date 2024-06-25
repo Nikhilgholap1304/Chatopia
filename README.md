@@ -67,6 +67,8 @@ This project was built using these technologies.
 
 **🎞 Able to share photo/video/doc/zip and many type of files**
 
+**📌 Viable Timestamps**
+
 **🎨 Styled with TailwindCSS**
 
 **🎗 Upto the Mark UI and UX**
