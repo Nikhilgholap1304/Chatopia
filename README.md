@@ -100,4 +100,4 @@ Give a ⭐ if you like this website!
 
 ## 📄 License
 
-This project is licensed under the [License](LICENSE). Feel free to use, modify, and distribute the code for both personal and commercial projects.
+This project is licensed under the [License](LICENSE.txt). Feel free to use, modify, and distribute the code for both personal and commercial projects.
