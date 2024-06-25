@@ -5,6 +5,7 @@
 <div align="center">
   <img alt="Demo" src="./readme_files/Chatopia 1.png"/>
   <img alt="Demo" src="./readme_files/Chatopia 2.png"/>
+  Give a visit to below link, you will get the idea about the project through a short video.
   https://github.com/Nikhilgholap1304/Chatopia/assets/118434064/13e35b58-6beb-4524-ae7c-f1cfc2ebb649
 
 
