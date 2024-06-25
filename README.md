@@ -36,7 +36,7 @@ You can fork this repo to modify and make changes of your own. Please give me pr
 
 ## Built With
 
-This is an comprehensive react chat app which can authorize persons via google and github register/login as Oauth latest. It has good UI, basic features, fully device responsive and still under construction.
+Chatopia is a real-time chat application designed for seamless and instant communication. Built using modern web technologies like React and Vite, Chatopia leverages Firebase for its backend services, including real-time database, authentication, and cloud storage. The app supports text messaging, multimedia sharing (photos, videos, and documents), and ensures a user-friendly experience with features such as message timestamps, read receipts, and blocking functionality.
 
 This project was built using these technologies.
 
